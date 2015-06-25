@@ -600,7 +600,7 @@ module.exports = function (grunt) {
         'injector:less', 
         'concurrent:server',
         'injector',
-        'wiredep',
+        // 'wiredep',
         'autoprefixer',
         'concurrent:debug'
       ]);
@@ -612,7 +612,7 @@ module.exports = function (grunt) {
       'injector:less', 
       'concurrent:server',
       'injector',
-      'wiredep',
+      // 'wiredep',
       'autoprefixer',
       'express:dev',
       'wait',
@@ -655,7 +655,7 @@ module.exports = function (grunt) {
         'injector:less', 
         'concurrent:test',
         'injector',
-        'wiredep',
+        // 'wiredep',
         'autoprefixer',
         'express:dev',
         'protractor'
@@ -673,7 +673,7 @@ module.exports = function (grunt) {
     'injector:less', 
     'concurrent:dist',
     'injector',
-    'wiredep',
+    // 'wiredep',
     'useminPrepare',
     'autoprefixer',
     'ngtemplates',
