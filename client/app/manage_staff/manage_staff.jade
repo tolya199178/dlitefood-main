@@ -1,0 +1,52 @@
+#wrapper
+	nav.navbar-default.navbar-static-side(role='navigation')
+		.sidebar-collapse
+			ul#side-menu.nav.metismenu(side-navigation='')
+				li.nav-header
+					.dropdown.profile-element(dropdown='')
+						a.dropdown-toggle(dropdown-toggle='', href='')
+							span.clear
+								span.block.m-t-xs
+									strong.font-bold Thien Nguyen
+								span.text-muted.text-xs.block
+									| Developer
+				li
+					form.navbar-form-custom(role='search', method='post', action='views/search_results.html')
+						.form-group
+							.col-md-12
+								input#top-search.form-control(type='text', placeholder="{{ 'SEARCH' | translate }}", name='top-search')
+					.clearfix
+
+				li(ng-class="{active: $state.includes('dashboards')}")
+					a
+						i.fa.fa-th-large
+						span.nav-label {{ 'UNASSIGNED' | translate }}
+						span.fa.arrow
+					ul.nav(ng-class="{in: $state.includes('dashboards')}")
+						each val in [1, 2, 3]
+							li
+								a
+									i.fa.fa-map-marker
+									span.nav-label {{ '100 Lorem lipsum'}}
+									.progress.progress-mini
+										.progress-bar(style='width: 68%')
+									.m-t-sm.small {{'Lorem lipsum sit amet'}}
+				li(ng-class="{active: $state.includes('dashboards')}")
+					a
+						i.fa.fa-th-large
+						span.nav-label {{ 'SAN FRANCISCO' | translate }}
+						span.fa.arrow
+					ul.nav(ng-class="{in: $state.includes('dashboards')}")
+						each val in [1, 2, 3]
+							li
+								a
+									i.fa.fa-map-marker
+									span.nav-label {{ '100 Lorem lipsum'}}
+									.progress.progress-mini
+										.progress-bar(style='width: 68%')
+									.m-t-sm.small {{'Lorem lipsum sit amet'}}
+
+	#map-wrapper
+		div(ng-include="'app/common/topnavbar.html'")
+		section#map.gray-bg(ng-controller='ManageStaffCtrl')
+			.google-map(ui-map='myMap', ui-options='mapOptions')
