@@ -14,7 +14,7 @@ angular.module('jffAdminApp')
 						}, {
 							name: 'ui.map',
 							files: ['plugins/uimaps/ui-map.js']
-						}, ]);
+						} ]);
 					}
 				}
 			});
