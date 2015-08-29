@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .factory('Modal', function ($rootScope, $modal) {
     /**
      * Opens a modal

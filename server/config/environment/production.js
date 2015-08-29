@@ -13,11 +13,13 @@ module.exports = {
             process.env.PORT ||
             8080,
 
-  // MongoDB connection options
-  mongo: {
-    uri:    process.env.MONGOLAB_URI ||
-            process.env.MONGOHQ_URL ||
-            process.env.OPENSHIFT_MONGODB_DB_URL+process.env.OPENSHIFT_APP_NAME ||
-            'mongodb://localhost/jffadmin'
+  mysql: {
+    username: "root",
+    password: "anhlavip",
+    database: "justfast_food",
+    host: "127.0.0.1",
+    dialect: "mysql",
+    autoMigrateOldSchema: true,
+    logging: false
   }
 };

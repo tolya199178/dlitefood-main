@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp', [
+angular.module('dLiteMeAdmin', [
 		'ngCookies',
 		'ngResource',
 		'ngSanitize',
@@ -8,7 +8,6 @@ angular.module('jffAdminApp', [
 		'ui.router',
 		'ui.bootstrap',
 		'oc.lazyLoad', // ocLazyLoad
-		'pascalprecht.translate', // Angular Translate
 		'ngIdle' // Idle timer
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
