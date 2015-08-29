@@ -1,21 +1,23 @@
-var testModule = angular.module('test', ['oc.lazyLoad']);
+angular.module('test', ['oc.lazyLoad'])
+	.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
+		$ocLazyLoadProvider.config({
+			jsLoader: requirejs,
+			debug: true
+		});
+}])
+	.controller('mainController', ['$scope', '$ocLazyLoad', function($scope, $ocLazyLoad) {
+		$scope.test = "Hi there";
+		$scope.partialUrl = '';
 
-testModule.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-    $ocLazyLoadProvider.config({
-        jsLoader: requirejs,
-        debug: true
-    });
-}]);
+		$scope.load = function() {
+			$ocLazyLoad.load({
+				name: 'lazymodule',
+				files: ['lazymodule']
+			}).then(function() {
+				$scope.partialUrl = 'partials/grid.html';
+			}, function(e){
+				console.log(e);
+			});
+		}
 
-testModule.controller('mainController', ['$scope', '$ocLazyLoad', function($scope, $ocLazyLoad) {
-    $scope.test = "Hi there";
-    $scope.partialUrl = '';
-
-    $scope.load = function() {
-        $ocLazyLoad.load('lazymodule').then(function() {
-            $scope.partialUrl = 'partials/grid.html';
-        }, function(e) {
-            console.log(e);
-        });
-    }
 }]);

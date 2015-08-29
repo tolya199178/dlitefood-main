@@ -7,8 +7,7 @@ angular.module('jffAdminApp', [
 		'btford.socket-io',
 		'ui.router',
 		'ui.bootstrap',
-		// 'oc.lazyLoad', // ocLazyLoad
-		'pascalprecht.translate', // Angular Translate
+		'oc.lazyLoad', // ocLazyLoad
 		'ngIdle' // Idle timer
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

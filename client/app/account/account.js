@@ -6,7 +6,10 @@ angular.module('jffAdminApp')
       .state('login', {
         url: '/login',
         templateUrl: 'app/account/login/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginCtrl',
+        data:{
+          specialClass: "gray-bg"
+        }
       })
       .state('settings', {
         url: '/settings',
