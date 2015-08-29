@@ -2,7 +2,10 @@
 
 angular.module('jffAdminApp')
   .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
-    $scope.user = {};
+    $scope.user = {
+      email: 'admin@just-fastfood.com',
+      password: 'tolulope'
+    };
     $scope.errors = {};
 
     $scope.login = function(form) {

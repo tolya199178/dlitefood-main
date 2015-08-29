@@ -9,9 +9,6 @@ module.exports = {
   DOMAIN:           'http://localhost:9000',
   SESSION_SECRET:   'jffadmin-secret',
 
-  TWITTER_ID:       'app-id',
-  TWITTER_SECRET:   'secret',
-
   // Control debug level for modules using visionmedia/debug
   DEBUG: ''
 };
