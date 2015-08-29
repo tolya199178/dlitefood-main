@@ -2,6 +2,14 @@
   nav.navbar.navbar-static-top(role='navigation', style='margin-bottom: 0')
     .navbar-header
       span(minimaliza-sidebar='')
+        
+    .navbar-header
+      a.navbar-minimalize.minimalize-styl-2.btn.btn-primary(href='#')
+        i.fa.fa-bars
+      form.navbar-form-custom(role='search', action='search_results.html')
+        .form-group
+          input#top-search.form-control(type='text', placeholder='Search for something...', name='top-search')
+
     ul.nav.navbar-top-links.navbar-right
       li
         a(ui-sref='login')

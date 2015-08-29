@@ -29,7 +29,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       validate: {
         isLongEnough: function(hashedPassword) {
-          if (authTypes.indexOf(this.provider) !== -1) return true;
           return hashedPassword.length;
         }
       }
@@ -46,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    staff_max_distence: {
+    staff_max_distance: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -73,8 +72,8 @@ module.exports = function(sequelize, DataTypes) {
     password: {
       type: DataTypes.VIRTUAL,
       set: function(val) {
-        this._password = password;
-        this.staff_password = this.encryptPassword(password);
+        this._password = val;
+        this.staff_password = this.encryptPassword(val);
 
         // this.setDataValue('password', val); // Remember to set the data value, otherwise it won't be validated
         // this.setDataValue('hashedPassword', this.salt + val);
