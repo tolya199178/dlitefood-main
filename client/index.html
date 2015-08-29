@@ -27,7 +27,7 @@
 	<!-- endbuild -->
 </head>
 
-<body ng-controller="AppCtrl as main" class="{{$state.current.data.specialClass}}" landing-scrollspy id="page-top">
+<body ng-controller="AppCtrl as main" class="gray-bg {{$state.current.data.specialClass}}" landing-scrollspy id="page-top">
 
 	<!-- Main view  -->
 	<div ui-view></div>
@@ -73,7 +73,7 @@
 	<script src="bower_components/lodash/dist/lodash.compat.js"></script>
 	<script src="bower_components/angular-socket-io/socket.js"></script>
 	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-	<script src="plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
+	<!-- // <script src="plugins/oclazyload/dist/ocLazyLoad.min.js"></script> -->
 	<script src="plugins/angular-translate/angular-translate.min.js"></script>
 	<script src="plugins/bootstrap/ui-bootstrap-tpls-0.12.0.min.js"></script>
 	<script src="plugins/angular-idle/angular-idle.js"></script>
@@ -87,14 +87,11 @@
 	<script src="app/account/account.js"></script>
 	<script src="app/account/login/login.controller.js"></script>
 	<script src="app/account/settings/settings.controller.js"></script>
-	<script src="app/account/signup/signup.controller.js"></script>
 	<script src="app/admin/admin.controller.js"></script>
 	<script src="app/admin/admin.js"></script>
 	<script src="app/controller.js"></script>
-	<script src="app/dashboard_1/dashboard_1.controller.js"></script>
-	<script src="app/dashboard_1/dashboard_1.js"></script>
-	<script src="app/main/main.controller.js"></script>
-	<script src="app/main/main.js"></script>
+	<script src="app/home/home.controller.js"></script>
+	<script src="app/home/home.js"></script>
 	<script src="app/manage_staff/manage_staff.controller.js"></script>
 	<script src="app/manage_staff/manage_staff.js"></script>
 	<script src="components/auth/auth.service.js"></script>
