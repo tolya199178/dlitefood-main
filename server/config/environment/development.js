@@ -3,10 +3,15 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/jffadmin-dev'
-  },
-
-  seedDB: true
+  
+  mysql: {
+    username: "root",
+    password: "anhlavip",
+    database: "justfast_food",
+    host: "127.0.0.1",
+    dialect: "mysql",
+    autoMigrateOldSchema: true,
+    logging: false
+  }
+  
 };
