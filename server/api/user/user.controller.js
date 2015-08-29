@@ -9,14 +9,32 @@ var validationError = function(res, err) {
   return res.json(422, err);
 };
 
+var LIST_STAFF_ATTRIBUTE = [
+        'staff_id',
+        'staff_email',
+        'staff_name',
+        'staff_address',
+        'staff_phoneno',
+        'staff_postcode',
+        'staff_max_distance',
+        'staff_available_time',
+        'staff_location'
+      ];
+
 /**
  * Get list of staffs
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
-  models.Staffs.findAll({attributes: ['-staff_password']}).then(function (staffs) {
-    res.json(200, staffs);
-  });
+  try {
+    models.Staffs.findAll({
+      attributes: LIST_STAFF_ATTRIBUTE
+    }).then(function (staffs) {
+      res.json(200, {success: true, data: staffs});
+    });
+  } catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
 };
 
 /**
@@ -26,10 +44,17 @@ exports.create = function (req, res, next) {
   var newStaff = req.body;
   newStaff.provider = 'local';
   newStaff.role = 'user';
-  models.Staffs.create(newStaff).then(function(staff) {
-    var token = jwt.sign({_id: staff.staff_id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
-  });
+  try {
+    models.Staffs.create(newStaff).then(function(staff) {
+      if (!staff) res.json(500, { sucess: false, msg: 'Unknow issue - Can\'t create staff ' });
+
+      var token = jwt.sign({_id: staff.staff_id }, config.secrets.session, { expiresInMinutes: 60*5 });
+      res.json(200, { sucess: true, token: token });
+    });
+  } catch (exception) {
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
 };
 
 /**
@@ -37,15 +62,20 @@ exports.create = function (req, res, next) {
  */
 exports.show = function (req, res, next) {
   var staffId = req.params.id;
-
-  Staffs.findOne({
-    where: {
-      staff_id: staffId
-    }
-  }).then(function (staff) {
-    if (!staff) return res.send(401);
-    res.json(staff.profile);
-  });
+  try{
+    models.Staffs.findOne({
+      where: {
+        staff_id: staffId
+      }
+    }).then(function (staff) {
+      if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the staff'});
+      res.json(200, {success: true, data: staff.profile});
+    });
+  }
+  catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
 };
 
 /**
@@ -53,50 +83,90 @@ exports.show = function (req, res, next) {
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
-  Staffs.findByIdAndRemove(req.params.id, function(err, staff) {
-    if(err) return res.send(500, err);
-    return res.send(204);
-  });
+  try{
+    models.Staffs
+      .remove({
+        where: {
+          staff_id: req.params.id
+        }
+      })
+      .then(function(result) {
+        if(result[0] != 1) return res.json(404,{success: false, data: 'Can\'t delete the staff ' });
+        return res.json(200, {success: true});
+      });
+  } catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
 };
 
 /**
  * Change a staffs password
  */
 exports.changePassword = function(req, res, next) {
-  var staffId = req.staff._id;
+  var staffId = req.staff.staff_id;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
-  Staffs.findById(staffId, function (err, staff) {
-    if(staff.authenticate(oldPass)) {
-      staff.password = newPass;
-      staff.save(function(err) {
-        if (err) return validationError(res, err);
-        res.send(200);
-      });
-    } else {
-      res.send(403);
-    }
-  });
+  try{
+    models.Staffs
+    .findOne({
+      where: {
+        staff_id: staffId
+      }
+    })
+    .then(function (staff) {
+      if(!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+
+      if(staff.authenticate(oldPass)) {
+        models.Staffs
+        .update({
+            password: newPass
+          },{
+            where: {
+              staff_id: staffId
+            }
+        })
+        .then(function(result) {
+          if (result[0] != 1) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
+          return res.json(200, {success: true});
+        });
+      } else {
+        return res.json(403, {success: false, msg: 'Forbidden'});
+      }
+    });
+  }
+  catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
 };
 
 /**
  * Get my info
  */
 exports.me = function(req, res, next) {
-  var staffId = req.staff._id;
-  Staffs.findOne({
-    _id: staffId
-  }, '-salt -hashedPassword', function(err, staff) { // don't ever give out the password or salt
-    if (err) return next(err);
-    if (!staff) return res.json(401);
-    res.json(staff);
-  });
+  var staffId = req.staff.staff_id;
+  try{
+    models.Staffs.findOne({
+      where: {
+        staff_id: staffId
+      },
+      attributes: LIST_STAFF_ATTRIBUTE
+    }).then(function(staff) {
+      if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the your info !'});
+      res.json(200, {success: true, data: staff});
+    });
+  }
+  catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
 };
 
 /**
  * Authentication callback
  */
 exports.authCallback = function(req, res, next) {
-  res.redirect('/');
+  res.redirect('/login');
 };

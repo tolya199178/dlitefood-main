@@ -31,7 +31,7 @@ function isAuthenticated() {
       }).then(function (user) {
         if (!user) return res.send(401);
 
-        req.user = user;
+        req.staff = user;
         next();
       });
     });
@@ -66,8 +66,8 @@ function signToken(id) {
  * Set token cookie directly for oAuth strategies
  */
 function setTokenCookie(req, res) {
-  if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.'});
-  var token = signToken(req.user._id, req.user.role);
+  if (!req.staff) return res.json(404, { message: 'Something went wrong, please try again.'});
+  var token = signToken(req.staff._id, req.staff.role);
   res.cookie('token', JSON.stringify(token));
   res.redirect('/');
 }
