@@ -4,7 +4,53 @@
   #page-wrapper.gray-bg(class='~$state.current.name~')
     div(ng-include="'components/topbar/topbar.html'")
 
-    div.page-content.row.border-bottom.white-bg
-      | this is the content of manage staff page
+    // Main content here
+    .row.wrapper.border-bottom.white-bg.page-heading
+      .col-lg-10
+        h2.bold  Staff Management
+        ol.breadcrumb
+          li
+            a(href='/dashboard') Dashboard
+          li
+            a(href='/staff') Staff
+          li.active
+            a(href='/manage_staff')
+            strong Manage Staff
+      .col-lg-2
+    .wrapper.wrapper-content.animated.fadeIn
+      .row
+        .col-lg-10
+         .ibx-content
+           .search-form
+             form(
+               novalidate,
+               role="form"
+              )
+               .input-group
+                 input.form-control.input-lg(
+                  type="text",
+                  placeholder="e.g staff name",
+                  name="search"
+                 )
+                 .input-group-btn
+                   button.btn.btn-lg.btn-primary(
+                    type="submit"
+                   ) Search
+           .hr-line-dashed
+
+      .tabs-container
+          tabset
+            tab(heading="Add New Driver")
+              .panel-body
+                div(ng-include="'app/manage_staff/subviews/add_driver_form.html'")
+            tab(heading="Browse All")
+              .panel-body
+                strong Include browse all table
+            tab(heading="Each Driver's Order")
+              .panel-body
+                strong Include each drivers order
+            tab(heading="All Orders")
+              .panel-body
+                strong include all orders
 
     div(ng-include="'components/footer/footer.html'")

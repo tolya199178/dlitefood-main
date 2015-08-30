@@ -34,7 +34,7 @@
 	<!--[if lt IE 7]>
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
-	
+
 	<!--[if lt IE 9]>
 		<script src="bower_components/es5-shim/es5-shim.js"></script>
 		<script src="bower_components/json3/lib/json3.min.js"></script>
@@ -65,6 +65,12 @@
 	<!-- endbuild -->
 	<!-- build:js({.tmp,client}) app/app.js -->
 	<script src="app/app.js"></script>
+  <link href="bower_components/iCheck/skins/square/green.css" rel="stylesheet">
+  <script src="bower_components/iCheck/icheck.min.js"></script>
+  <link href="bower_components/switchery/dist/switchery.min.css" rel="stylesheet">
+  <script src="bower_components/switchery/dist/switchery.min.js"></script>
+
+  <script src="bower_components/ng-switchery/src/ng-switchery.js"></script>
 	<!-- injector:js -->
 	<script src="app/account/account.js"></script>
 	<script src="app/account/login/login.controller.js"></script>
@@ -78,6 +84,7 @@
 	<script src="app/manage_staff/manage_staff.js"></script>
 	<script src="components/auth/auth.service.js"></script>
 	<script src="components/auth/user.service.js"></script>
+	<script src="components/directives/all_directives.js"></script>
 	<script src="components/modal/modal.service.js"></script>
 	<script src="components/mongoose-error/mongoose-error.directive.js"></script>
 	<script src="components/navbar/navbar.controller.js"></script>
