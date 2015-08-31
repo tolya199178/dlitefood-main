@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .config(function ($stateProvider) {
     $stateProvider
       .state('home', {

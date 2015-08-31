@@ -3,10 +3,10 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  
+
   mysql: {
     username: "root",
-    password: "anhlavip",
+    password: "",
     database: "justfast_food",
     host: "127.0.0.1",
     dialect: "mysql",
@@ -14,6 +14,6 @@ module.exports = {
     logging: false
   },
 
-  userRoles: ['staff', 'supervisor', 'user', 'admin'],
+  userRoles: ['staff', 'supervisor', 'user', 'admin']
   
 };

@@ -3,7 +3,7 @@
 describe('Controller: HomeCtrl', function () {
 
   // load the controller's module
-  beforeEach(module('jffAdminApp'));
+  beforeEach(module('dLiteMeAdmin'));
   beforeEach(module('socketMock'));
 
   var HomeCtrl,

@@ -1,4 +1,4 @@
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
 	.controller('ManageStaffCtrl', function($scope, $http, socket) {
 		$scope.mapOptions = {
 			zoom: 11,

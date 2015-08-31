@@ -2649,7 +2649,7 @@ function sweetAlertCtrl($scope, SweetAlert) {
  * Pass all functions into module
  */
 angular
-    .module('jffAdminApp')
+    .module('dLiteMeAdmin')
     .controller('AppCtrl', AppCtrl)
     .controller('dashboardFlotOne', dashboardFlotOne)
     .controller('dashboardFlotTwo', dashboardFlotTwo)

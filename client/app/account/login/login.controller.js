@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {
       email: 'admin@just-fastfood.com',

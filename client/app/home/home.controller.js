@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .controller('HomeCtrl', function ($scope, $http, socket) {
     
   });
