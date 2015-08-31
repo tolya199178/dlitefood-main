@@ -3,7 +3,7 @@ module.exports = function(sequelize, DataTypes) {
   var Merchants = sequelize.define('Merchants', {
     type_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     type_name: {

@@ -12,6 +12,8 @@ module.exports = {
     dialect: "mysql",
     autoMigrateOldSchema: true,
     logging: false
-  }
+  },
+
+  userRoles: ['staff', 'supervisor', 'user', 'admin'],
   
 };
