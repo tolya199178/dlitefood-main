@@ -14,5 +14,7 @@ router.get('/me', auth.isAuthenticated(), controller.me);
 router.put('/:id/password', auth.isAuthenticated(), controller.changePassword);
 // router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', auth.hasPermission('STAFF_MANAGEMENT', 'CREATE'), controller.create);
+router.put('/:id/updateLocation', controller.updateLocation);
+router.put('/:id/changeStatus', controller.changeStatus);
 
 module.exports = router;

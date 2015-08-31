@@ -11,7 +11,7 @@ angular.module('dLiteMeAdmin', [
 		'ngIdle', // Idle timer
     'NgSwitchery',
     'ui.footable',
-    'ui.select'
+    // 'ui.select'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		$urlRouterProvider

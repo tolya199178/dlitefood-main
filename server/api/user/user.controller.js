@@ -4,7 +4,8 @@ var models = require('../../models'),
     passport = require('passport'),
     config = require('../../config/environment'),
     jwt = require('jsonwebtoken'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    userSocket = require('./user.socket');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -54,7 +55,10 @@ exports.index = function(req, res) {
       limit: pageSize
     }).then(function (staffs) {
       res.json(200, {success: true, data: staffs});
-    });
+    })
+    .catch(function(exception){
+      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+    });;
   } catch (exception){
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
   }
@@ -114,6 +118,10 @@ exports.create = function (req, res, next) {
  * restriction: 'admin'
  */
 exports.destroy = function(req, res) {
+  if (!req.params.id){
+    return res.json(400, {success: false, msg: 'You must pass in staff !'});
+  }
+
   try{
     models.Staffs
       .destroy({
@@ -142,6 +150,10 @@ exports.changePassword = function(req, res, next) {
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
+  if (!oldPass || !newPass){
+    return res.json(400, {success: false, msg: 'You must pass in passwords !'});
+  }
+
   try{
     models.Staffs
     .findOne({
@@ -164,6 +176,9 @@ exports.changePassword = function(req, res, next) {
         .then(function(result) {
           if (result != 1) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
           return res.json(200, {success: true});
+        })
+        .catch(function(exception){
+          res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
         });
       } else {
         return res.json(403, {success: false, msg: 'Forbidden'});
@@ -198,6 +213,9 @@ exports.update = function(req, res, next) {
       .then(function(result) {
         if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update staff information !' });
         return res.json(200, {success: true});
+      })
+      .catch(function(exception){
+        res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
       });
          
     });
@@ -210,10 +228,11 @@ exports.update = function(req, res, next) {
 
 
 /**
- * Get my info
+ * Get personal info
  */
 exports.me = function(req, res, next) {
   var staffId = req.staff.staff_id;
+  
   try{
     models.Staffs.findOne({
       where: {
@@ -223,6 +242,9 @@ exports.me = function(req, res, next) {
     }).then(function(staff) {
       if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the your info !'});
       res.json(200, {success: true, data: staff});
+    })
+    .catch(function(exception){
+      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
     });
   }
   catch (exception){
@@ -230,6 +252,142 @@ exports.me = function(req, res, next) {
   }
   
 };
+
+
+
+/*
+  Update staff location
+  @param {Integer} staff id
+  @param {Float} Latitude
+  @param {Float} Longtitude
+*/
+exports.updateLocation = function(req, res) {
+  console.log(req.params.id);
+  if (!req.params.id || !req.body.lat || !req.body.lon) {
+    return res.json(400, {
+      success: false,
+      msg: 'Please pass in right data'
+    });
+  };
+
+  try {
+    models.Staffs
+      .findOne({
+        where: {
+          staff_id: req.params.id
+        }
+      })
+      .then(function(staff) {
+        if (!staff) {
+          return res.json(404, {
+            success: false,
+            msg: 'Can\'t find the staff '
+          });
+        }
+
+        models.Staffs.update({
+          staff_location: JSON.stringify({
+            lat: req.body.lat,
+            lon: req.body.lon
+          }),
+        }, {
+          where: {
+            staff_id: req.params.id
+          }
+        }).then(function(result) {
+          if (result[0] == 1){
+            userSocket.broadcastData('staff:location_change', {
+              id: req.params.id,
+              lat: req.body.lat,
+              lon: req.body.lon
+            });
+            return res.json(200, {
+              sucess: true
+            });
+          }
+          else
+            return res.json(422, {
+              success: false,
+              msg: 'Please double check the input lat lon. '
+            });
+        });
+
+      });
+  } catch (exception) {
+    return res.json(500, {
+      success: false,
+      data: exception
+    });
+  }
+
+};
+
+
+/*
+  Update staff location
+  @param {Integer} staff id
+  @param {Interge} Status
+*/
+var STAFF_STATUS = {
+  ACTIVE: 1,
+  DELIVERING: 2,
+  INACTIVE: 3
+};
+
+exports.changeStatus = function(req, res) {
+  if (!req.params.id || !req.body.status) {
+    return res.json(400, {
+      success: false,
+      msg: 'Please pass in right data'
+    });
+  };
+
+  try {
+    models.Staffs
+      .findOne({
+        where: {
+          staff_id: req.params.id
+        }
+      })
+      .then(function(staff) {
+        if (!staff) {
+          return res.json(404, {
+            success: false,
+            msg: 'Can\'t find the staff '
+          });
+        }
+
+        models.Staffs.update({
+          staff_status: req.body.status,
+        }, {
+          where: {
+            staff_id: req.params.id
+          }
+        }).then(function(result) {
+          if (result[0] == 1){
+            staff.staff_status = req.body.status;
+            userSocket.broadcastData('staff:status_change', staff);
+            return res.json(200, {
+              sucess: true
+            });
+          }
+          else
+            return res.json(422, {
+              success: false,
+              msg: 'Please double check the input lat lon. '
+            });
+        });
+
+      });
+  } catch (exception) {
+    return res.json(500, {
+      success: false,
+      data: exception
+    });
+  }
+
+};
+
 
 /**
  * Authentication callback

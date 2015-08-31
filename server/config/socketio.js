@@ -16,7 +16,7 @@ function onConnect(socket) {
   socket.on('info', function (data) {
     console.info('[%s] %s', socket.address, JSON.stringify(data, null, 2));
   });
-
+  
 }
 
 module.exports = function (socketio) {
