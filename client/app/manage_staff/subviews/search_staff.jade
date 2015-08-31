@@ -1,0 +1,41 @@
+form.form-horizontal(
+  novalidate,
+  name="search_driver",
+  role="forn"
+)
+
+  h4.bold Weekly Staff Order
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          table.footable.table.toggle-arrow-tiny(data-page-size="15")
+            thead
+            tr
+              th Staff ID
+              th Full Name
+              th Date Added
+               span.small.help-block.text-navy (7 days interval)
+              th Nos. of Orders Fulfilled
+              th Nos. of Orders Cancelled
+            tbody
+              tr
+                td 112
+                td Kunle Adetayo
+                td 31/08/2015
+                td 65
+                td 20
+
+              tr
+                td 113
+                td Tuan
+                td 31/08/2015
+                td 75
+                td 15
+
+            tfoot
+            tr
+              td(colspan="5")
+                ul.pagination.pull-right
+

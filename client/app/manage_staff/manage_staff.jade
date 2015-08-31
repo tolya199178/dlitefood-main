@@ -1,4 +1,4 @@
-#wrapper
+#wrapper(data-ng-controller="ManageStaffCtrl")
   div(ng-include="'components/navbar/navbar.html'")
 
   #page-wrapper.gray-bg(class='~$state.current.name~')
@@ -30,17 +30,19 @@
 
       .tabs-container
           tabset
-            tab(heading="Add New Driver")
+            tab(heading="Add New Staff")
               .panel-body
                 div(data-ng-include="'app/manage_staff/subviews/add_staff_form.html'")
-            tab(heading="Browse All Drivers")
+            tab(heading="Browse All Staff")
               .panel-body
                 div(data-ng-include="'app/manage_staff/subviews/browse_staff_table.html'")
-            tab(heading="Each Driver's Order")
+            tab(heading=" Staff's Order")
               .panel-body
                 div(data-ng-include="'app/manage_staff/subviews/each_staff_order.html'")
             tab(heading="All Orders")
               .panel-body
-                strong include all orders
-
+                div(data-ng-include="'app/manage_staff/subviews/search_staff.html'")
+            tab(heading="Query Staff Table")
+              .panel-body
+                h5 Generic query here...
     div(ng-include="'components/footer/footer.html'")

@@ -6,7 +6,7 @@
       .table-responsive
         #editable_wrapper.form-inline
           .row
-            .col-sm-6
+            .col-lg-3
               .dataTables_length
                 label.control-label
                   | Show
@@ -16,23 +16,28 @@
                     option(value="10") 10
                     option(value="20") 20
                   |    out of 100
-            .col-sm-6
-              .dataTables_filter
-                .col-lg-6.col-sm-offset-2
-                  input.form-control.input-sm(
-                  type="search",
-                  placeholder="search for driver",
 
-                  )
-            .col-sm-6
+            .col-lg-4
               .dataTables_filter
                 ui-select(
-                  name="filter_staff_order",
-                  data-ng-model="filter_staff_order",
-                  theme="bootstrap",
-                  ng-disabled="disabled"
+                style="min-width: 300px",
+                name="filter_staff_order",
+                data-ng-model="filter_staff_order",
+                theme="bootstrap",
+                data-ng-disabled="disabled"
                 )
-                    ui-select-match(placeholder="select filter element") {{filterOptions}}
+                  ui-select-match(placeholder="select filter element...") {{$select.selected.name}}
+                  ui-select-choices(repeat="options in filterOption | filter: $select.search")
+                    | {{options.name}}
+
+            .col-sm-2
+              .dataTables_filter
+                input.form-control.input-sm(
+                type="search",
+                placeholder="search for driver",
+
+                )
+
     .row
       .col-lg-12
         .ibox
@@ -42,42 +47,37 @@
               tr
                 th Staff ID
                 th Full Name
-                th Email
+                th Order ID
                 th Date Added
-                th Postcode
-                th Max. Distance
                 th Status
-                th.text-right Action
               tbody
                 tr
                   td 112
                   td Kunle Adetayo
-                  td kunle@dliteme.com
-                  td 31/08/2015 23.10
-                  td E2 7DD
-                  td 10
+                  td 002
+                  td 31/08/2015 23:10
                   td
-                    span.label.label-primary Active
-                  td.text-right
-                    .btn-group
-                      button.btn-warning.btn.btn-xs Edit
-                      button.btn-danger.btn.btn-xs Delete
+                    span.label.label-primary Fulfilled
+
                 tr
                   td 113
                   td Tuan
-                  td tuan@dliteme.com
-                  td 31/08/2015 23.16
-                  td E9 5DL
-                  td 7
+                  td 004
+                  td 31/08/2015 23:16
                   td
-                    span.label.label-warning Inactive
-                  td.text-right
-                    .btn-group
-                      button.btn-warning.btn.btn-xs Edit
-                      button.btn-danger.btn.btn-xs Delete
+                    span.label.label-warning Pending
+
+                tr
+                  td 114
+                  td Ade
+                  td 005
+                  td 31/08/2015 22:10
+                  td
+                    span.label.label-danger Cancelled
+
               tfoot
               tr
-                td(colspan="8")
+                td(colspan="5")
                   ul.pagination.pull-right
 
 
