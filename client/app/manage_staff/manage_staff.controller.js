@@ -1,6 +1,14 @@
 angular.module('dLiteMeAdmin')
 	.controller('ManageStaffCtrl', function($scope, $http, socket) {
-		$scope.mapOptions = {
+
+    $scope.filterOptions = [
+      {Id: 'Staff ID'},
+      {active: 'Active Most'},
+      {less: 'Less Active'},
+      {date: 'Date'}
+    ];
+
+    $scope.mapOptions = {
 			zoom: 11,
 			center: new google.maps.LatLng(40.6700, -73.9400),
 			// Style for Google Maps

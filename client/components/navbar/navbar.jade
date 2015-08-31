@@ -9,22 +9,22 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
           a.dropdown-toggle(dropdown-toggle='', href='')
             span.clear
               span.block.m-t-xs
-                strong.font-bold Thien Nguyen
+                strong.font-bold DLite Admin
               span.text-muted.text-xs.block
-                | Developer 
+                | Administrator
         .logo-element
           | JFF
       li(ng-class="{active: $state.includes('dashboards')}")
         a(ui-sref='dashboards')
           i.fa.fa-map-marker
-          span.nav-label {{ 'DASHBOARD'}}
+          span.nav-label {{ 'Dashboard'}}
 
       li(ng-class="{active: $state.includes('manage-staff')}")
         a(ui-sref='manage-staff')
           i.fa.fa-users
-          span.nav-label {{ 'MANAGE STAFFS'}}
+          span.nav-label {{ 'Manage Staff'}}
 
       li(ng-class="{active: $state.includes('customer')}")
         a(ui-sref='customer')
           i.fa.fa-group
-          span.nav-label {{ 'CUSTOMER'}}
+          span.nav-label {{ 'Customers'}}

@@ -26,29 +26,19 @@
                novalidate,
                role="form"
               )
-               .input-group
-                 input.form-control.input-lg(
-                  type="text",
-                  placeholder="e.g staff name",
-                  name="search"
-                 )
-                 .input-group-btn
-                   button.btn.btn-lg.btn-primary(
-                    type="submit"
-                   ) Search
-           .hr-line-dashed
+
 
       .tabs-container
           tabset
             tab(heading="Add New Driver")
               .panel-body
-                div(ng-include="'app/manage_staff/subviews/add_driver_form.html'")
-            tab(heading="Browse All")
+                div(data-ng-include="'app/manage_staff/subviews/add_staff_form.html'")
+            tab(heading="Browse All Drivers")
               .panel-body
-                strong Include browse all table
+                div(data-ng-include="'app/manage_staff/subviews/browse_staff_table.html'")
             tab(heading="Each Driver's Order")
               .panel-body
-                strong Include each drivers order
+                div(data-ng-include="'app/manage_staff/subviews/each_staff_order.html'")
             tab(heading="All Orders")
               .panel-body
                 strong include all orders

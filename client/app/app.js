@@ -9,7 +9,9 @@ angular.module('dLiteMeAdmin', [
 		'ui.bootstrap',
 		'oc.lazyLoad', // ocLazyLoad
 		'ngIdle', // Idle timer
-    'NgSwitchery'
+    'NgSwitchery',
+    'ui.footable',
+    'ui.select'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		$urlRouterProvider
