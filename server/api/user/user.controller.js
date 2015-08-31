@@ -1,9 +1,10 @@
 'use strict';
 
-var models = require('../../models');
-var passport = require('passport');
-var config = require('../../config/environment');
-var jwt = require('jsonwebtoken');
+var models = require('../../models'),
+    passport = require('passport'),
+    config = require('../../config/environment'),
+    jwt = require('jsonwebtoken'),
+    _ = require('lodash');
 
 var validationError = function(res, err) {
   return res.json(422, err);
@@ -26,9 +27,31 @@ var LIST_STAFF_ATTRIBUTE = [
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
+
+  /*
+    Set default value for parameters
+  */
+  var  keywordForName = req.query.name || "";
+  var pageNumber = parseInt(req.query.pageNumber) || 1;
+  var pageSize = parseInt(req.query.pageSize) || 20;
+
+  if (keywordForName){
+    var whereCondition = {
+        staff_name: {
+          $like: '%' + keywordForName + '%'
+        }
+      }
+  }
+  else{
+    var whereCondition = {};
+  }
+
   try {
     models.Staffs.findAll({
-      attributes: LIST_STAFF_ATTRIBUTE
+      where: whereCondition,
+      attributes: LIST_STAFF_ATTRIBUTE,
+      offset: (pageNumber-1)*pageSize,
+      limit: pageSize
     }).then(function (staffs) {
       res.json(200, {success: true, data: staffs});
     });
@@ -43,13 +66,21 @@ exports.index = function(req, res) {
 exports.create = function (req, res, next) {
   var newStaff = req.body;
   newStaff.provider = 'local';
-  newStaff.role = 'user';
+
+  if (!newStaff.role){
+    return res.json(400, {success: false, msg: 'You must pass in role !'});
+  }
+
   try {
-    models.Staffs.create(newStaff).then(function(staff) {
+    models.Staffs
+    .create(newStaff)
+    .then(function(staff) {
       if (!staff) res.json(500, { sucess: false, msg: 'Unknow issue - Can\'t create staff ' });
 
-      var token = jwt.sign({_id: staff.staff_id }, config.secrets.session, { expiresInMinutes: 60*5 });
-      res.json(200, { sucess: true, token: token });
+      res.json(200, { sucess: true });
+    })
+    .catch(function(exception){
+      res.json(400, {success: false, data: exception, msg: 'Please pass in proper inputs !!!'});  
     });
   } catch (exception) {
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
@@ -60,23 +91,23 @@ exports.create = function (req, res, next) {
 /**
  * Get a single staff
  */
-exports.show = function (req, res, next) {
-  var staffId = req.params.id;
-  try{
-    models.Staffs.findOne({
-      where: {
-        staff_id: staffId
-      }
-    }).then(function (staff) {
-      if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the staff'});
-      res.json(200, {success: true, data: staff.profile});
-    });
-  }
-  catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
+// exports.show = function (req, res, next) {
+//   var staffId = req.params.id;
+//   try{
+//     models.Staffs.findOne({
+//       where: {
+//         staff_id: staffId
+//       }
+//     }).then(function (staff) {
+//       if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the staff'});
+//       res.json(200, {success: true, data: staff.profile});
+//     });
+//   }
+//   catch (exception){
+//     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+//   }
   
-};
+// };
 
 /**
  * Deletes a staff
@@ -85,14 +116,17 @@ exports.show = function (req, res, next) {
 exports.destroy = function(req, res) {
   try{
     models.Staffs
-      .remove({
+      .destroy({
         where: {
           staff_id: req.params.id
         }
       })
       .then(function(result) {
-        if(result[0] != 1) return res.json(404,{success: false, data: 'Can\'t delete the staff ' });
+        if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the staff ' });
         return res.json(200, {success: true});
+      })
+      .catch(function(exception){
+        res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
       });
   } catch (exception){
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
@@ -128,7 +162,7 @@ exports.changePassword = function(req, res, next) {
             }
         })
         .then(function(result) {
-          if (result[0] != 1) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
+          if (result != 1) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
           return res.json(200, {success: true});
         });
       } else {
@@ -141,6 +175,39 @@ exports.changePassword = function(req, res, next) {
   }
   
 };
+
+
+/**
+ * update a staffs password
+ */
+exports.update = function(req, res, next) {
+  var staffId = req.params.id;
+  var staffInfo = req.body;
+
+  try{
+    models.Staffs
+    .findOne({
+      where: {
+        staff_id: staffId
+      }
+    })
+    .then(function (staff) {
+      if(!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+
+      staff.update(staffInfo)
+      .then(function(result) {
+        if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update staff information !' });
+        return res.json(200, {success: true});
+      });
+         
+    });
+  }
+  catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+  
+};
+
 
 /**
  * Get my info

@@ -3,10 +3,10 @@
 var crypto = require('crypto');
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Staffs', {
+  var Staffs =  sequelize.define('Staffs', {
     staff_id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      autoIncrement: true,
       primaryKey: true
     },
     staff_email: {
@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       validate: {
         isValidateEmail: function(email) {
           if (email.length < 9) {
-            throw new Error("Please choose a longer password")
+            throw new Error("Please choose a longer email !")
           }
         }
       }
@@ -26,44 +26,36 @@ module.exports = function(sequelize, DataTypes) {
     },
     staff_password: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isLongEnough: function(hashedPassword) {
-          return hashedPassword.length;
-        }
-      }
+      allowNull: false
     },
     staff_address: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     staff_phoneno: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     staff_postcode: {
-      type: DataTypes.TEXT,
-      allowNull: false,
+      type: DataTypes.TEXT
     },
     staff_max_distance: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     staff_location: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: DataTypes.STRING
     },
     staff_available_time: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: false
     },
     staff_status: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     },
     role: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     },
     provider: {
       type: DataTypes.STRING,
@@ -81,24 +73,19 @@ module.exports = function(sequelize, DataTypes) {
       get: function() {
         return this._password;
       },
-      validate: {
-        isLongEnough: function(val) {
-          if (val.length < 7) {
-            throw new Error("Please choose a longer password")
-          }
+      validate: function(val) {
+        if (val.length < 7) {
+          throw new Error("Please choose a longer password")
         }
-      }
-    },
-    token: {
-      type: DataTypes.VIRTUAL,
-      get: function(val) {
-        return {
-          '_id': this.staff_id,
-          'role': this.role
-        };
       }
     }
   }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+       Staffs.hasOne(models.Role, {foreignKey: 'role'});
+      }
+    },
     instanceMethods: {
       /**
        * Authenticate - check if the passwords are the same
@@ -128,4 +115,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+  
+  return Staffs;
 };
