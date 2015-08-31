@@ -12,6 +12,7 @@ exports.setup = function (User, config) {
           staff_email: email.toLowerCase()
         }
       }).then(function(user) {
+        
         if (!user) {
           return done(null, false, { message: 'This email is not registered.' });
         }

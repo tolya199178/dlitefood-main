@@ -3,7 +3,7 @@
 var crypto = require('crypto');
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Staffs', {
+  var Staffs =  sequelize.define('Staffs', {
     staff_id: {
       type: DataTypes.INTEGER(11),
       autoIncrement: true,
@@ -54,8 +54,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING
     },
     role: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.INTEGER(11),
+      allowNull: true
     },
     provider: {
       type: DataTypes.STRING,
@@ -80,6 +80,12 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   }, {
+    classMethods: {
+      associate: function(models) {
+        // associations can be defined here
+       Staffs.hasOne(models.Role, {foreignKey: 'role'});
+      }
+    },
     instanceMethods: {
       /**
        * Authenticate - check if the passwords are the same
@@ -109,4 +115,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
+  
+  return Staffs;
 };

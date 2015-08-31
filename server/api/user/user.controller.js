@@ -66,7 +66,10 @@ exports.index = function(req, res) {
 exports.create = function (req, res, next) {
   var newStaff = req.body;
   newStaff.provider = 'local';
-  newStaff.role = newStaff.role || 'user';
+
+  if (!newStaff.role){
+    return res.json(400, {success: false, msg: 'You must pass in role !'});
+  }
 
   try {
     models.Staffs
