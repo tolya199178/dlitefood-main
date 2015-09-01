@@ -52,7 +52,8 @@ exports.index = function(req, res) {
       where: whereCondition,
       attributes: LIST_STAFF_ATTRIBUTE,
       offset: (pageNumber-1)*pageSize,
-      limit: pageSize
+      limit: pageSize,
+      include: [{model: models.Roles}]
     }).then(function (staffs) {
       res.json(200, {success: true, data: staffs});
     })

@@ -1,7 +1,7 @@
 /* jshint indent: 2 */
 
 module.exports = function(sequelize, DataTypes) {
-  var Role =  sequelize.define('Role', {
+  var Role =  sequelize.define('Roles', {
     id: {
       type: DataTypes.INTEGER(11),
       autoIncrement: true,
@@ -11,6 +11,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     }
+  }, {
+    timestamps: false
   });
   return Role;
 };

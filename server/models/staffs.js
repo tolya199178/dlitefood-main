@@ -83,7 +83,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-       Staffs.hasOne(models.Role, {foreignKey: 'role'});
+       Staffs.belongsTo(models.Roles, {foreignKey: 'role'});
       }
     },
     instanceMethods: {

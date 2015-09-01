@@ -72,7 +72,7 @@ function hasPermission(permissionRequired, action) {
         return res.send(403);
 
       models.sequelize
-        .query('Select rp.value, p.alias, p.name from Permission as p, Role_Permission as rp ' +
+        .query('Select rp.value, p.alias, p.name from Permissions as p, Role_Permission as rp ' +
                 'Where rp.role = ' + req.staff.role + ' and rp.permission = p.id',
                 { type: models.sequelize.QueryTypes.SELECT})
         .then(function(data){
