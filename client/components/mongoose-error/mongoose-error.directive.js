@@ -3,7 +3,7 @@
 /**
  * Removes server error when user updates input
  */
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .directive('mongooseError', function () {
     return {
       restrict: 'A',

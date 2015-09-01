@@ -1,17 +1,15 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .config(function ($stateProvider) {
     $stateProvider
       .state('login', {
         url: '/login',
         templateUrl: 'app/account/login/login.html',
-        controller: 'LoginCtrl'
-      })
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/account/signup/signup.html',
-        controller: 'SignupCtrl'
+        controller: 'LoginCtrl',
+        data:{
+          specialClass: "gray-bg"
+        }
       })
       .state('settings', {
         url: '/settings',

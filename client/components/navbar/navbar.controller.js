@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
     $scope.menu = [{
       'title': 'Home',

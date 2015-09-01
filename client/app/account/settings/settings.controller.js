@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('jffAdminApp')
+angular.module('dLiteMeAdmin')
   .controller('SettingsCtrl', function ($scope, User, Auth) {
     $scope.errors = {};
 

@@ -1,0 +1,86 @@
+.ecommerce.animated.fadeInRight
+  .row
+    .col-lg-12
+      h4 View orders by Staff
+    .ibox-content.m-b-sm
+      .table-responsive
+        #editable_wrapper.form-inline
+          .row
+            .col-lg-3
+              .dataTables_length
+                label.control-label
+                  | Show
+                  select.form-control.input-sm(
+                  name="show_entries",
+                  )
+                    option(value="10") 10
+                    option(value="20") 20
+                  |    out of 100
+
+            .col-lg-4
+              .dataTables_filter
+                ui-select(
+                style="min-width: 300px",
+                name="filter_staff_order",
+                data-ng-model="filter_staff_order",
+                theme="bootstrap",
+                data-ng-disabled="disabled"
+                )
+                  ui-select-match(placeholder="select filter element...") {{$select.selected.name}}
+                  ui-select-choices(repeat="options in filterOption | filter: $select.search")
+                    | {{options.name}}
+
+            .col-sm-2
+              .dataTables_filter
+                input.form-control.input-sm(
+                type="search",
+                placeholder="search for driver",
+
+                )
+
+    .row
+      .col-lg-12
+        .ibox
+          .ibox-content
+            table.footable.table.toggle-arrow-tiny(data-page-size="15")
+              thead
+              tr
+                th Staff ID
+                th Full Name
+                th Order ID
+                th Date Added
+                th Status
+              tbody
+                tr
+                  td 112
+                  td Kunle Adetayo
+                  td 002
+                  td 31/08/2015 23:10
+                  td
+                    span.label.label-primary Fulfilled
+
+                tr
+                  td 113
+                  td Tuan
+                  td 004
+                  td 31/08/2015 23:16
+                  td
+                    span.label.label-warning Pending
+
+                tr
+                  td 114
+                  td Ade
+                  td 005
+                  td 31/08/2015 22:10
+                  td
+                    span.label.label-danger Cancelled
+
+              tfoot
+              tr
+                td(colspan="5")
+                  ul.pagination.pull-right
+
+
+
+
+

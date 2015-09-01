@@ -1,5 +1,5 @@
 /**
- * INSPINIA - Responsive Admin Theme
+ * DLiteMe
  *
  * Inspinia theme use AngularUI Router to manage routing and views
  * Each view are defined as state.
