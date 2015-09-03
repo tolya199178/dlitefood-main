@@ -95,6 +95,8 @@ module.exports = function(sequelize, DataTypes) {
        * @api public
        */
       authenticate: function(plainText) {
+        console.log(this.encryptPassword(plainText));
+        console.log(this.staff_password);
         return this.encryptPassword(plainText) === this.staff_password;
       },
 
