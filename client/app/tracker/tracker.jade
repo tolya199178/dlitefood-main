@@ -1,0 +1,15 @@
+#wrapper
+  div(data-ng-include="'components/navbar/navbar.html'")
+  #page-wrapper.gray-bg(class='~$state.current.name~')
+    div(data-ng-include="'components/topbar/topbar.html'")
+
+    .wrapper.wrapper-content.animated.fadeInRight
+      .tabs-container
+        tabset
+          tab(heading="Staff Map" data-ng-controller="TrackerCtrl")
+            .panel-body
+              div(data-ng-include="'app/tracker/subviews/map.html'")
+          tab(heading="Street View")
+            .panel-body
+              div(data-ng-include="'app/tracker/subviews/street.html'")
+

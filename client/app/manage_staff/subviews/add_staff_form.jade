@@ -1,142 +1,143 @@
-form.form-horizontal(
-  novalidate,
-  name="add_driver",
-  role="form"
-)
-  h4.bold Personal Info
+.ecommerce.animated.fadeInRight
+  form.form-horizontal(
+    novalidate,
+    name="add_driver",
+    role="form"
+  )
+    h4.bold Personal Info
 
-  .form-group
-    .col-lg-2
-      label.contro-label Full Name
-      span.required *
-    .col-lg-6
-      input.form-control(
-        type="text",
-        data-ng-model="staffs_full_name",
-        placeholder="Driver's Full Name",
-        required
-      )
-      span.help-block.text-navy.m-b-none
-  .form-group
-    .col-lg-2
-      label.control-label Email
-      span.required *
-    .col-lg-6
-      input.form-control(
-        type="text",
-        data-ng-model="staffs_email",
-        placeholder="Email",
-        required
-      )
-      span.help-block.text-navy.m-b-none
-  .form-group
-    .col-lg-2
-      label.control-label Phone Number
-      span.required *
-      span.small.help-block.text-navy For real-time notifications & updates
-    .col-lg-6
-      input.form-control(
-        type="text",
-        data-ng-model="staffs_phone_no",
-        placeholder="e.g 07701057688",
-        required
-      )
-      span.help-block.m-b-none
-  .form-group
-    .col-lg-2.col-sm-4.col-xs-6.col-md-4
-      label.control-label Postcode
-      span.required *
-      span.small.help-block.text-navy Use for base location
-    .col-lg-6
-      input.form-control(
-        type="text",
-        data-ng-model="staffs_postcode",
-        placeholder="e.g SW7 5HR",
-        required
-      )
-  .form-group
-    .col-lg-2
-      label.control-label Maximum Distance
-      span.required *
-      span.small.help-block.text-navy Maximum miles/distance driver can cover from postcode
-    .col-lg-6
-      input.form-control(
-        type="text",
-        placeholder="e.g 5"
-        data-ng-model="max_distance",
-        required
-      )
+    .form-group
+      .col-lg-2
+        label.contro-label Full Name
+        span.required *
+      .col-lg-6
+        input.form-control(
+          type="text",
+          data-ng-model="staffs_full_name",
+          placeholder="Driver's Full Name",
+          required
+        )
+        span.help-block.text-navy.m-b-none
+    .form-group
+      .col-lg-2
+        label.control-label Email
+        span.required *
+      .col-lg-6
+        input.form-control(
+          type="text",
+          data-ng-model="staffs_email",
+          placeholder="Email",
+          required
+        )
+        span.help-block.text-navy.m-b-none
+    .form-group
+      .col-lg-2
+        label.control-label Phone Number
+        span.required *
+        span.small.help-block.text-navy For real-time notifications & updates
+      .col-lg-6
+        input.form-control(
+          type="text",
+          data-ng-model="staffs_phone_no",
+          placeholder="e.g 07701057688",
+          required
+        )
+        span.help-block.m-b-none
+    .form-group
+      .col-lg-2.col-sm-4.col-xs-6.col-md-4
+        label.control-label Postcode
+        span.required *
+        span.small.help-block.text-navy Use for base location
+      .col-lg-6
+        input.form-control(
+          type="text",
+          data-ng-model="staffs_postcode",
+          placeholder="e.g SW7 5HR",
+          required
+        )
+    .form-group
+      .col-lg-2
+        label.control-label Maximum Distance
+        span.required *
+        span.small.help-block.text-navy Maximum miles/distance driver can cover from postcode
+      .col-lg-6
+        input.form-control(
+          type="text",
+          placeholder="e.g 5"
+          data-ng-model="max_distance",
+          required
+        )
 
 
-  .hr-line-dashed
+    .hr-line-dashed
 
-  h4.bold Driver's Schedule
-  .form-group
-    .col-lg-2
-      label.control-label Driver's Availability
-      span.required *
-      span.small.help-block.text-navy Should be checked if drivers is available Mon-Sun, 10 - 11pm.
-    .col-lg-10
-      div
-        label
+    h4.bold Driver's Schedule
+    .form-group
+      .col-lg-2
+        label.control-label Driver's Availability
+        span.required *
+        span.small.help-block.text-navy Should be checked if drivers is available Mon-Sun, 10 - 11pm.
+      .col-lg-10
+        div
+          label
+          input(
+            icheck,
+            type="radio",
+            name="staff_all_days",
+            ng-model="staffs_all_days"
+          )
+          |     Available Mon-Sun (10am - 11pm)
+        div
+          label
         input(
           icheck,
           type="radio",
-          name="staff_all_days",
-          ng-model="staffs_all_days"
+          name="staff_specific_days",
+          ng-model="staff_specific_days"
         )
-        |     Available Mon-Sun (10am - 11pm)
-      div
-        label
-      input(
-        icheck,
-        type="radio",
-        name="staff_specific_days",
-        ng-model="staff_specific_days"
-      )
-      |      Available Specific Days
+        |      Available Specific Days
 
-  .hr-line-dashed
+    .hr-line-dashed
 
-  h4 Staff Password for mobile app authentication
+    h4 Staff Password for mobile app authentication
 
-  .form-group
-    .col-lg-2
-      label.control-label Generate Staff Password
-      span.required *
-      span.help-block.text-navy.small Every new staff needs to have password generated. This is then sent to the driver via SMS (This can also be changed here).
-    .col-lg-6
-      .input-group
-        input.form-control(
-          type="text",
-          name="staffs_password",
-          data-ng-model="staffs_password",
-          required
+    .form-group
+      .col-lg-2
+        label.control-label Generate Staff Password
+        span.required *
+        span.help-block.text-navy.small Every new staff needs to have password generated. This is then sent to the driver via SMS (This can also be changed here).
+      .col-lg-6
+        .input-group
+          input.form-control(
+            type="text",
+            name="staffs_password",
+            data-ng-model="staffs_password",
+            required
+          )
+          .input-group-btn
+            button.btn.btn-primary.btn-lg(
+            type="submit"
+            ) Generate Password
+    .hr-line-dashed
+
+    h4 Staff current status
+    span.help-block.text-navy.small To be obtained from DB. This can also be set to false from admin area or via the mobile app by driver
+
+    .form-group
+      .col-lg-2
+        label.control-label Staffs Status
+      .col-lg-6
+        input.form-control.js-switch(
+          ui-switch="{'color:'#1AB394', secondaryColor: '#F89279'}",
+          type="checkbox",
+          data-ng-model="staffs_status",
+          name="staffs_status"
         )
-        .input-group-btn
-          button.btn.btn-primary(
-          type="submit"
-          ) Generate Password
-  .hr-line-dashed
+    .hr-line-dashed
 
-  h4 Staff current status
-  span.help-block.text-navy.small To be obtained from DB. This can also be set to false from admin area or via the mobile app by driver
-
-  .form-group
-    .col-lg-2
-      label.control-label Staffs Status
-    .col-lg-6
-      input.form-control.js-switch(
-        ui-switch="{'color:'#1AB394', secondaryColor: '#F89279'}",
-        type="checkbox",
-        data-ng-model="staffs_status",
-        name="staffs_status"
-      )
-  .hr-line-dashed
-
-  .form-group
-    .col-lg-6.col-sm-8.col-lg-offset-2
-      button.btn.btn-danger.btn-lg.btn-rounded.btn-outline Add Driver
+    .form-group
+      .col-lg-6.col-sm-8.col-lg-offset-2
+        button.btn.btn-danger.btn-lg.btn-rounded.btn-outline Add Driver
 
 
 

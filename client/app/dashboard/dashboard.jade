@@ -1,0 +1,10 @@
+#wrapper
+  div(ng-include="'components/navbar/navbar.html'")
+
+  #page-wrapper.gray-bg(class='~$state.current.name~')
+    div(ng-include="'components/topbar/topbar.html'")
+
+    div.page-content
+      div(data-ng-include="'app/dashboard/subviews/main.html'")
+
+    div(ng-include="'components/footer/footer.html'")

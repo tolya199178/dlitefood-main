@@ -11,7 +11,9 @@ angular.module('dLiteMeAdmin', [
 		'ngIdle', // Idle timer
     'NgSwitchery',
     'ui.footable',
-    // 'ui.select'
+    'ui.select',
+    'chart.js',
+    'uiGmapgoogle-maps'
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
 		$urlRouterProvider
@@ -20,6 +22,15 @@ angular.module('dLiteMeAdmin', [
 		$locationProvider.html5Mode(true);
 		$httpProvider.interceptors.push('authInterceptor');
 	})
+
+  .config( function (uiGmapGoogleMapApiProvider) {
+    uiGmapGoogleMapApiProvider.configure({
+        key: 'AIzaSyDa3Tb9Se7HOaKvEbX0TeJvndujJ8fp5YU',
+        v: '3.20',
+        lib: 'weather,geometry,visualization'
+
+    });
+  })
 
 .factory('authInterceptor', function($rootScope, $q, $cookieStore, $location) {
 	return {
