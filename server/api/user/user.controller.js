@@ -263,8 +263,7 @@ exports.me = function(req, res, next) {
   @param {Float} Longtitude
 */
 exports.updateLocation = function(req, res) {
-  console.log(req.params.id);
-  if (!req.params.id || !req.body.lat || !req.body.lon) {
+  if (!req.body.lat || !req.body.lon) {
     return res.json(400, {
       success: false,
       msg: 'Please pass in right data'
@@ -275,7 +274,7 @@ exports.updateLocation = function(req, res) {
     models.Staffs
       .findOne({
         where: {
-          staff_id: req.params.id
+          staff_id: req.staff.staff_id
         }
       })
       .then(function(staff) {
@@ -293,12 +292,12 @@ exports.updateLocation = function(req, res) {
           }),
         }, {
           where: {
-            staff_id: req.params.id
+            staff_id: req.staff.staff_id
           }
         }).then(function(result) {
           if (result[0] == 1){
             userSocket.broadcastData('staff:location_change', {
-              id: req.params.id,
+              id: req.staff.staff_id,
               lat: req.body.lat,
               lon: req.body.lon
             });
@@ -336,7 +335,7 @@ var STAFF_STATUS = {
 };
 
 exports.changeStatus = function(req, res) {
-  if (!req.params.id || !req.body.status) {
+  if (!req.body.status) {
     return res.json(400, {
       success: false,
       msg: 'Please pass in right data'
@@ -347,7 +346,7 @@ exports.changeStatus = function(req, res) {
     models.Staffs
       .findOne({
         where: {
-          staff_id: req.params.id
+          staff_id: req.staff.staff_id
         }
       })
       .then(function(staff) {
@@ -359,10 +358,10 @@ exports.changeStatus = function(req, res) {
         }
 
         models.Staffs.update({
-          staff_status: req.body.status,
+          staff_status: req.body.status.toString(),
         }, {
           where: {
-            staff_id: req.params.id
+            staff_id: req.staff.staff_id
           }
         }).then(function(result) {
           if (result[0] == 1){
