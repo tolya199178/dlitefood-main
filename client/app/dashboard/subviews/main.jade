@@ -1,0 +1,318 @@
+.row.animated.fadeInRight
+  .col-lg-2
+    .ibox.float-e-margins
+      .ibox-title
+        span.label.label-success.pull-right Monthly
+        h5 Revenue
+      .ibox-content
+        h1.no-margins 386,000
+        .stat-percent.font-bold.text-success
+          | 98%
+          i.fa.fa-bolt
+        small Total Income
+  .col-lg-2
+    .ibox-float-e-margins
+      .ibox-title
+        span.label.label-warning.pull-right Current
+        h5 Orders
+      .ibox-content
+        h1.no-margins 4
+        .stat-percent.font-bold.text-success
+          | 2%
+          i.fa.fa.bolt
+        small Pending Orders
+  .col-lg-2
+    .ibox-float-e-margins
+      .ibox-title
+        span.label.label-success.pull-right Monthly
+        h5 Profit
+      .ibox-content
+        h1.no-margins 12,000
+        .stat-percent.font-bold.text-success
+          | 20%
+          i.fa.fa.bolt
+        small Monthly Profit
+  .col-lg-2
+    .ibox-float-e-margins
+      .ibox-title
+        span.label.label-info.pull-right Monthly
+        h5 Users
+      .ibox-content
+        h1.no-margins 700
+        .stat-percent.font-bold.text-success
+          | 15%
+          i.fa.fa.bolt
+        small Registered Users
+
+  .col-lg-2
+    .ibox-float-e-margins
+      .ibox-title
+        span.label.label-default.pull-right Yearly
+        h5 Members
+      .ibox-content
+        h1.no-margins 8000
+        .stat-percent.font-bold.text-success
+          | 15%
+          i.fa.fa.bolt
+        small No. of Customers
+  .col-lg-2
+    .ibox-float-e-margins
+      .ibox-title
+        span.label.label-primary.pull-right Daily
+        h5 Orders
+      .ibox-content
+        h1.no-margins 200
+        .stat-percent.font-bold.text-success
+          | 15%
+          i.fa.fa.bolt
+        small Daily Orders
+.row.animated.fadeInRight
+  .col-lg-8
+    .ibox.float-e-margins
+      .ibox-content
+        div
+          span.pull-right.text-right
+            small
+            | Average value of sales in the past month in:
+            br
+          h3.font-bold.no-margins
+            | 6 months revenue margin
+          small All sales: 140,000
+        .m-t-sm
+          .row
+            .col-md-8(ng-controller='chartJsCtrl as chart')
+              canvas.chart.chart-line(
+                id="line",
+                chart-data="data"
+                chart-labels="labels"
+                chart-legend="true"
+                chart-series="series",
+                chart-click="onClick")
+            .col-md-4
+              ul.stat-list.m-t-lg
+                li
+                  h2.no-margins 2,346
+                  small Total orders in period
+                  .progress.progress-mini
+                    .progress-bar(style='width: 48%;')
+                li
+                  h2.no-margins 4,422
+                  small Orders in last month
+                  .progress.progress-mini
+                    .progress-bar(style='width: 60%;')
+        .m-t-md
+          small.pull-right
+            i.fa.fa-clock-o
+            |                         Update on 02.09.2015
+          small
+            strong Analysis of sales:
+            |  The value has been changed over time, and last month reached a level over $50,000.
+  .col-lg-4
+    .ibox.float-e-margins
+      .ibox-title
+        span.label.label-warning.pull-right Real-time
+        h5 DLiteme GA's
+      .ibox-content
+        .row
+          .col-xs-4
+            small.stats-label Daily Orders
+
+            h4.strong 550
+          .col-xs-4
+            small.stats-label Weekly Orders
+
+            h4.strong 400
+          .col-xs-4
+            small.stats-label Monthly Orders
+
+            h4.strong 1500
+      .ibox-content
+        .row
+          .col-xs-4
+            small.stats-label Daily Visits
+            h4 50,000
+          .col-xs-4
+            small.stats-label Weekly Visits
+            h4.strong 350
+          .col-xs-4
+            small.stats-label Monthly Visits
+            h4.strong 40
+
+
+      .ibox-content
+        .row
+          .col-xs-4
+            small.stats-label Weekly Registered Users
+            h4.strong 350
+          .col-xs-4
+            small.stats-label Monthly Registered Users
+            h4.strong 1200
+          .col-xs-4
+            small.stats-label Weekly Cancelled Orders
+            h4.strong 40
+      .ibox-content
+        .row
+          .col-xs-4
+            small.stats-label Total Merchants
+            h4.strong 55
+          .col-xs-4
+            small.stats-label Total Drivers
+            h4.strong 10
+          .col-xs-4
+            small.stats-label Active Driver ID
+            h4.strong 0014
+      // Daily feed
+
+.row
+  .col-lg-4
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Daily feed
+
+        .ibox-tools
+          span.label.label-warning-light 10 Recent Updates
+      .ibox-content
+        div
+          .feed-activity-list
+            .feed-element
+              a.pull-left(ui-sref="profile")
+                img.img-circle(style="width: 48px; height: 35px;" src="http://res.cloudinary.com/dy4lucetl/image/upload/v1441205140/D-symbol_zsqvra.png" alt="Dliteme")
+              .media-body
+                small.pull-right 5m ago
+                strong Kunle Adetayo
+                |     posted a new blog
+                br
+                small.text-muted Today 3.28 pm
+            .feed-element
+              a.pull-left(ui-sref="profile")
+                img.img-circle(style="width: 48px; height: 35px;" src="http://res.cloudinary.com/dy4lucetl/image/upload/v1441205140/D-symbol_zsqvra.png" alt="Dliteme")
+              .media-body
+                small.pull-right 25m ago
+                strong Tuan
+                |     posted a new blog
+                br
+                small.text-muted Today 5.28 pm
+            .feed-element
+              a.pull-left(ui-sref="profile")
+                img.img-circle(style="width: 48px; height: 35px;" src="http://res.cloudinary.com/dy4lucetl/image/upload/v1441205140/D-symbol_zsqvra.png" alt="Dliteme")
+              .media-body
+                small.pull-right 2h ago
+                strong Abi Adetayo
+                |     posted a new blog
+                br
+                small.text-muted Today 5.28 pm
+            .feed-element
+              a.pull-left(ui-sref="profile")
+                img.img-circle(style="width: 48px; height: 35px;" src="http://res.cloudinary.com/dy4lucetl/image/upload/v1441205140/D-symbol_zsqvra.png" alt="Dliteme")
+              .media-body
+                small.pull-right 5m ago
+                strong Kunle Adetayo
+                |     posted a new blog
+                br
+                small.text-muted Today 3.28 pm
+          button.btn.btn-primary.btn-block.m-t
+            i.fa.fa-arrow-down
+            |  Show more
+  .col-lg-4
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Recent Orders
+        .ibox-tools
+          span.label.label-success 10 Orders Today
+      .ibox-content
+        table.table.table-hover.no-margins
+          thead
+            tr
+              th.small Status
+              th.small Order ID
+              th.small Customer Name
+              th.small Value
+
+          tbody
+            tr
+              td
+                span.label.label-info Pending
+              td.small
+                i.fa.fa-motorcycle
+                |  463
+              td.small
+                i.fa.fa-user
+                |  Kunle Adetayo
+              td.small 25.48
+
+            tr
+              td
+                span.label.label-success Fulfilled
+              td.small
+                i.fa.fa-motorcycle
+                |  533
+              td.small
+                i.fa.fa-user
+                |  Tuan
+              td.small 30.00
+
+            tr
+              td
+                span.label.label-danger Cancelled
+              td.small
+                i.fa.fa-motorcycle
+                |  955
+              td.small
+                i.fa.fa-user
+                |  Dave
+              td.small 29.00
+
+  .col-lg-4
+    .ibox.float-e-margins
+      .ibox-title
+        h5 Recent Users
+        .ibox-tools
+          span.label.label-info 10 New Users Today
+      .ibox-content
+        table.table.table-hover.no-margins
+          thead
+            tr
+              th.small Username
+              th.small Postcode
+              th.small Customer
+              th.small Telephone
+
+          tbody
+            tr
+              td
+                h5.small bwoodlt
+              td
+                h5.small E2 7DD
+              td.small
+                i.fa.fa-user
+                |  Kunle Adetayo
+              td
+               h5 07701738844
+
+            tr
+              td
+                h5.small Tuan
+              td
+                h5.small SW7 5HR
+              td.small
+                i.fa.fa-user
+                |  Tuan
+              td
+                h5 07701738844
+
+            tr
+              td
+                h5.small Davies
+              td
+                h5.small N9 4PL
+              td.small
+                i.fa.fa-user
+                |  Davies Jones
+              td
+                h5 07701738844
+
+
+
+
+
+

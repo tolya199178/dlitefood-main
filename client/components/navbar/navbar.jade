@@ -4,7 +4,7 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
     ul#side-menu.nav.metismenu(side-navigation='')
       li.nav-header
         span
-          img.img-circle(style="width: 48px; height: 48px;",alt='image', src='http://cache.media.techz.vn/upload/2013/11/04/image-1383533029-anonymous-image.jpg')
+          img.img-circle(style="width: 48px; height: 48px;",alt='image', src='http://res.cloudinary.com/dy4lucetl/image/upload/v1441204721/dliteme_v6fsui.jpg')
         .dropdown.profile-element(dropdown='')
           a.dropdown-toggle(dropdown-toggle='', href='')
             span.clear
@@ -13,11 +13,16 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
               span.text-muted.text-xs.block
                 | Administrator
         .logo-element
-          | JFF
-      li(ng-class="{active: $state.includes('dashboards')}")
-        a(ui-sref='dashboards')
-          i.fa.fa-map-marker
+          img(src='../assets/img/a1.jpg')
+      li(ng-class="{active: $state.includes('dashboard')}")
+        a(ui-sref='dashboard')
+          i.fa.fa-th-large
           span.nav-label {{ 'Dashboard'}}
+
+      li(ng-class="{active: $state.includes('tracker')}")
+        a(ui-sref='tracker')
+          i.fa.fa-motorcycle
+          span.nav-label {{ 'Tracker' }}
 
       li(ng-class="{active: $state.includes('manage-staff')}")
         a(ui-sref='manage-staff')

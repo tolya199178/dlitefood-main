@@ -6,7 +6,7 @@ module.exports = {
 
   mysql: {
     username: "root",
-    password: "anhlavip",
+    password: "",
     database: "justfast_food",
     host: "127.0.0.1",
     dialect: "mysql",
@@ -14,5 +14,5 @@ module.exports = {
   },
 
   userRoles: ['staff', 'supervisor', 'user', 'admin']
-  
+
 };
