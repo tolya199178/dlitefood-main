@@ -8,6 +8,7 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.get('/', auth.hasPermission('STAFF_MANAGEMENT', 'READ'), controller.index);
+router.get('/activeStaff', auth.hasPermission('STAFF_MANAGEMENT', 'READ'), controller.getActiveStaff);
 router.delete('/:id', auth.hasPermission('STAFF_MANAGEMENT', 'DELETE'), controller.destroy);
 router.put('/updateUserInfo/:id', auth.hasPermission('STAFF_MANAGEMENT', 'UPDATE'), controller.update);
 router.get('/me', auth.isAuthenticated(), controller.me);

@@ -23,6 +23,13 @@ var LIST_STAFF_ATTRIBUTE = [
         'staff_location'
       ];
 
+var STAFF_STATUS = {
+  ACTIVE: "1",
+  DELIVERING: "2",
+  INACTIVE: "3"
+};
+
+
 /**
  * Get list of staffs
  * restriction: 'admin'
@@ -66,6 +73,30 @@ exports.index = function(req, res) {
 };
 
 /**
+ * Get list of active staff
+ * restriction: 'admin'
+ */
+exports.getActiveStaff = function(req, res) {
+
+  try {
+    models.Staffs.findAll({
+      where: {
+        staff_status: STAFF_STATUS.ACTIVE
+      },
+      attributes: LIST_STAFF_ATTRIBUTE
+    }).then(function (staffs) {
+      res.json(200, {success: true, data: staffs});
+    })
+    .catch(function(exception){
+      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+    });;
+  } catch (exception){
+    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+  }
+};
+
+
+/**
  * Creates a new staff
  */
 exports.create = function (req, res, next) {
@@ -93,30 +124,11 @@ exports.create = function (req, res, next) {
   
 };
 
-/**
- * Get a single staff
- */
-// exports.show = function (req, res, next) {
-//   var staffId = req.params.id;
-//   try{
-//     models.Staffs.findOne({
-//       where: {
-//         staff_id: staffId
-//       }
-//     }).then(function (staff) {
-//       if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the staff'});
-//       res.json(200, {success: true, data: staff.profile});
-//     });
-//   }
-//   catch (exception){
-//     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-//   }
-  
-// };
 
 /**
  * Deletes a staff
  * restriction: 'admin'
+ * 
  */
 exports.destroy = function(req, res) {
   if (!req.params.id){
@@ -145,6 +157,7 @@ exports.destroy = function(req, res) {
 
 /**
  * Change a staffs password
+ * Change current login staff password
  */
 exports.changePassword = function(req, res, next) {
   var staffId = req.staff.staff_id;
@@ -194,7 +207,8 @@ exports.changePassword = function(req, res, next) {
 
 
 /**
- * update a staffs password
+ * update a staffs information - you can update staff-password here
+ * {result} {sucess: true/false}
  */
 exports.update = function(req, res, next) {
   var staffId = req.params.id;
@@ -230,6 +244,7 @@ exports.update = function(req, res, next) {
 
 /**
  * Get personal info
+ * {result} personal info of current login staff
  */
 exports.me = function(req, res, next) {
   var staffId = req.staff.staff_id;
@@ -328,11 +343,6 @@ exports.updateLocation = function(req, res) {
   @param {Integer} staff id
   @param {Interge} Status
 */
-var STAFF_STATUS = {
-  ACTIVE: 1,
-  DELIVERING: 2,
-  INACTIVE: 3
-};
 
 exports.changeStatus = function(req, res) {
   if (!req.body.status) {
