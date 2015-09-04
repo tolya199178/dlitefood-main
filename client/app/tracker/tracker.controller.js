@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('dLiteMeAdmin')
-  .controller('TrackerCtrl', function ($scope, uiGmapGoogleMapApi) {
-    $scope.message = 'Hello';
+  .controller('TrackerCtrl', function ($scope, $state) {
+    $scope.active = {
+      map: $state.includes('tracker.map'),
+      street: $state.includes('tracker.street')
+    }
+  })
 
+  .controller('TrackerMapCtrl', function ($scope) {
     $scope.markers = [];
-
     $scope.map = {
       center: {
         latitude: 45,
@@ -13,8 +17,8 @@ angular.module('dLiteMeAdmin')
       },
       zoom: 8
     }
-
-    uiGmapGoogleMapApi.then( function (maps) {
-      console.log('Loading maps');
-    });
   })
+
+  .controller('TrackerStreetCtrl', function ($scope) {
+    
+  });
