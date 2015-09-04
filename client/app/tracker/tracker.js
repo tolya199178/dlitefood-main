@@ -13,18 +13,18 @@ angular.module('dLiteMeAdmin')
         url: '/tracker/map',
         views: {
           tracker_map: {
-            templateUrl: "app/tracker/subviews/map.html"
+            templateUrl: "app/tracker/subviews/map.html",
+            controller: 'TrackerMapCtrl'
           }
-        },
-        controller: 'TrackerMapCtrl'
+        }
       })
       .state('tracker.street', {
         url: '/tracker/street',
         views: {
           tracker_street: {
-            templateUrl: "app/tracker/subviews/street.html"
+            templateUrl: "app/tracker/subviews/street.html",
+            controller: 'TrackerStreetCtrl'
           }
-        },
-        controller: 'TrackerStreetCtrl'
+        }
       })
   });

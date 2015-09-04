@@ -6,10 +6,10 @@
     .wrapper.wrapper-content.animated.fadeInRight
       .tabs-container
         tabset
-          tab(heading="Staff Map", ui-sref="tracker.map", active="$state.includes('tracker.map')")
+          tab(heading="Staff Map", ui-sref="tracker.map", active="active.map", ui-sref-active="active")
             .panel-body
               div(ui-view="tracker_map")
-          tab(heading="Street View", ui-sref="tracker.street", active="$state.includes('tracker.street')")
+          tab(heading="Street View", ui-sref="tracker.street", active="active.street", ui-sref-active="active")
             .panel-body
               div(ui-view="tracker_street")
 
