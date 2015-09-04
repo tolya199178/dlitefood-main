@@ -3,7 +3,7 @@
 angular.module('dLiteMeAdmin')
   .controller('LoginCtrl', function ($scope, Auth, $location, $window) {
     $scope.user = {
-      email: 'admin@just-fastfood.com',
+      phoneno: '07701057692',
       password: 'tolulope'
     };
     $scope.errors = {};
@@ -13,7 +13,7 @@ angular.module('dLiteMeAdmin')
 
       if(form.$valid) {
         Auth.login({
-          email: $scope.user.email,
+          phoneno: $scope.user.phoneno,
           password: $scope.user.password
         })
         .then( function() {
