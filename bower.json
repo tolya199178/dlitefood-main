@@ -24,6 +24,7 @@
     "json3": "~3.3.1",
     "lodash": "~3.10.1",
     "ng-switchery": "~1.0.0-alpha7",
+    "ngmap": "~1.13.4",
     "ui-select": "angular-ui-select#~0.12.1"
   },
   "devDependencies": {

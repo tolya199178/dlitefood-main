@@ -8,10 +8,17 @@ angular.module('dLiteMeAdmin')
     }
   })
 
-  .controller('TrackerMapCtrl', function ($scope, uiGmapGoogleMapApi) {
-   
+  .controller('TrackerMapCtrl', function ($scope) {
+    $scope.markers = [];
+    $scope.map = {
+      center: {
+        latitude: 45,
+        longitude: -73
+      },
+      zoom: 8
+    }
   })
 
-  .controller('TrackerStreetCtrl', function ($scope, uiGmapGoogleMapApi) {
+  .controller('TrackerStreetCtrl', function ($scope) {
     
   });
