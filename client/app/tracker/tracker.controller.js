@@ -15,7 +15,19 @@ angular.module('dLiteMeAdmin')
     $scope.bounds = new google.maps.LatLngBounds ();
 
     $scope.$on('mapInitialized', function(event, map) {
-      console.log('map loaded');
+      /*
+       Get list active drivers
+      */
+      TrackerServices
+        .getDriversInformation().then(function(result){
+          if (result.success){
+            $scope.drivers = extractLocationData(result.data);
+            fitZoomToWrapMarker();
+          }
+          else{
+            alert("Can't get driver information: " + result.msg);
+          }
+        });
     });
 
     /*
@@ -101,19 +113,7 @@ angular.module('dLiteMeAdmin')
       $scope.map.fitBounds ($scope.bounds);
     }
 
-    /*
-      Get list active drivers
-    */
-    TrackerServices
-      .getDriversInformation().then(function(result){
-        if (result.success){
-          $scope.drivers = extractLocationData(result.data);
-          fitZoomToWrapMarker();
-        }
-        else{
-          alert("Can't get driver information: " + result.msg);
-        }
-      });
+    
   })
 
   .controller('TrackerStreetCtrl', function ($scope) {
