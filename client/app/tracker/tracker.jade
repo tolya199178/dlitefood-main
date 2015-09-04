@@ -6,10 +6,10 @@
     .wrapper.wrapper-content.animated.fadeInRight
       .tabs-container
         tabset
-          tab(heading="Staff Map" data-ng-controller="TrackerCtrl")
+          tab(heading="Staff Map", ui-sref="tracker.map", active="$state.includes('tracker.map')")
             .panel-body
-              div(data-ng-include="'app/tracker/subviews/map.html'")
-          tab(heading="Street View")
+              div(ui-view="tracker_map")
+          tab(heading="Street View", ui-sref="tracker.street", active="$state.includes('tracker.street')")
             .panel-body
-              div(data-ng-include="'app/tracker/subviews/street.html'")
+              div(ui-view="tracker_street")
 

@@ -8,6 +8,7 @@
     "angular-charts": "~0.2.7",
     "angular-cookies": ">=1.2.*",
     "angular-footable": "~1.0.3",
+    "angular-google-maps": "~2.1.6",
     "angular-resource": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",
     "angular-socket-io": "~0.6.0",
@@ -21,7 +22,7 @@
     "iCheck": "~1.0.2",
     "jquery": "~1.11.0",
     "json3": "~3.3.1",
-    "lodash": "~2.4.1",
+    "lodash": "~3.10.1",
     "ng-switchery": "~1.0.0-alpha7",
     "ui-select": "angular-ui-select#~0.12.1"
   },
