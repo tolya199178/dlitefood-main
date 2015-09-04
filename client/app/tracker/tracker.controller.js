@@ -55,17 +55,20 @@ angular.module('dLiteMeAdmin')
       var driver = _.find($scope.drivers, function(driver){
         return driver.staff_id == location.id;
       });
-      if (driver.marker)
-        driver.marker.setMap(null);
-      driver.marker = initMarker(location.lat, location.lon, driver.staff_name);
+      if (driver){
+        if (driver.marker)
+          driver.marker.setMap(null);
+        driver.marker = initMarker(location.lat, location.lon, driver.staff_name);
 
-      _.each($scope.drivers, function(driver){
-        if (driver.marker){
-          $scope.bounds.extend(driver.marker.getPosition());
-        }
-      });
+        _.each($scope.drivers, function(driver){
+          if (driver.marker){
+            $scope.bounds.extend(driver.marker.getPosition());
+          }
+        });
 
-      fitZoomToWrapMarker();
+        fitZoomToWrapMarker();
+      }
+      
     }
     
 
@@ -116,6 +119,23 @@ angular.module('dLiteMeAdmin')
     
   })
 
-  .controller('TrackerStreetCtrl', function ($scope) {
+  .controller('TrackerStreetCtrl', function ($scope, TrackerServices) {
+    $scope.streetPos = {};
+    $scope.showStreetMap = true;
     
+    $scope.$on('mapInitialized', function(event, map) {
+      /*
+       Get list active drivers
+      */
+      TrackerServices
+        .getDriversInformation().then(function(result){
+          if (result.success){
+            $scope.drivers = result.data;
+          }
+          else{
+            alert("Can't get driver information: " + result.msg);
+          }
+        });
+    });
+
   });
