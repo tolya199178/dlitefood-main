@@ -24,13 +24,13 @@ angular.module('dLiteMeAdmin', [
     $httpProvider.interceptors.push('authInterceptor');
   })
 
-.factory('authInterceptor', function($rootScope, $q, $cookieStore, $location) {
+.factory('authInterceptor', function($rootScope, $q, $cookies, $location) {
   return {
     // Add authorization token to headers
     request: function(config) {
       config.headers = config.headers || {};
-      if ($cookieStore.get('token')) {
-        config.headers.Authorization = 'Bearer ' + $cookieStore.get('token');
+      if ($cookies['token']) {
+        config.headers.Authorization = 'Bearer ' + $cookies['token'];
       }
       return config;
     },
@@ -40,7 +40,7 @@ angular.module('dLiteMeAdmin', [
       if (response.status === 401) {
         $location.path('/login');
         // remove any stale tokens
-        $cookieStore.remove('token');
+        delete $cookies['token'];
         return $q.reject(response);
       } else {
         return $q.reject(response);
