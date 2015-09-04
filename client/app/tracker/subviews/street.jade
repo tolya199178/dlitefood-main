@@ -1,1 +1,10 @@
-| this for test street
+#map_canvas
+  map(zoom="3" center="40.740, -74.18")
+    street-view-panorama(
+      click-to-go="true",
+      disable-default-u-i="false",
+      disable-double-click-zoom="false",
+      position="{{streetPos.lat}}, {{streetPos.lon}}",
+      pov="{heading:0, pitch: 0}",
+      visible="{{showStreetMap}}")
+  

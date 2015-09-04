@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('dLiteMeAdmin')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookies, $q) {
     var currentUser = {};
-    if($cookieStore.get('token')) {
+    if($cookies['token']) {
       currentUser = User.get();
     }
 
@@ -25,7 +25,7 @@ angular.module('dLiteMeAdmin')
           password: user.password
         }).
         success(function(data) {
-          $cookieStore.put('token', data.token);
+          $cookies['token'] =  data.token;
           currentUser = User.get();
           deferred.resolve(data);
           return cb();
@@ -45,7 +45,7 @@ angular.module('dLiteMeAdmin')
        * @param  {Function}
        */
       logout: function() {
-        $cookieStore.remove('token');
+        delete $cookies['token'];
         currentUser = {};
       },
 
@@ -61,7 +61,7 @@ angular.module('dLiteMeAdmin')
 
         return User.save(user,
           function(data) {
-            $cookieStore.put('token', data.token);
+            $cookies['token'] = data.token;
             currentUser = User.get();
             return cb(user);
           },
@@ -140,7 +140,7 @@ angular.module('dLiteMeAdmin')
        * Get auth token
        */
       getToken: function() {
-        return $cookieStore.get('token');
+        return $cookies['token'];
       }
     };
   });
