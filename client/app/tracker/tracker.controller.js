@@ -120,9 +120,27 @@ angular.module('dLiteMeAdmin')
   })
 
   .controller('TrackerStreetCtrl', function ($scope, TrackerServices) {
-    $scope.streetPos = {};
+    $scope.streetPos = {
+      lat: 40.688738,
+      lon: -74.043871
+    };
     $scope.showStreetMap = true;
-    
+    $scope.selectedDriver = "0";
+
+    $scope.selectDriver = function(){
+      var driver = _.find($scope.drivers, function(driver){
+        return driver.staff_id == parseInt($scope.selectedDriver);
+      });
+
+      if (driver.staff_location){
+        $scope.streetPos = JSON.parse(driver.staff_location);
+        $scope.map.panTo( new google.maps.LatLng ($scope.streetPos.lat, $scope.streetPos.lon));
+      }else{
+        alert("This staff doesn't have location information !! ")
+      }
+      
+    }
+
     $scope.$on('mapInitialized', function(event, map) {
       /*
        Get list active drivers

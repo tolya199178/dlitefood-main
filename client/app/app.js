@@ -40,7 +40,7 @@ angular.module('dLiteMeAdmin', [
       if (response.status === 401) {
         $location.path('/login');
         // remove any stale tokens
-        delete $cookies['token'];
+        $cookies.remove('token');
         return $q.reject(response);
       } else {
         return $q.reject(response);
