@@ -21,7 +21,7 @@ angular.module('dLiteMeAdmin')
         var deferred = $q.defer();
 
         $http.post('/auth/local', {
-          phoneno: user.phoneno,
+          email: user.email,
           password: user.password
         }).
         success(function(data) {

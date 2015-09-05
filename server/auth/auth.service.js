@@ -26,14 +26,14 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
-      models.Staffs.findOne({
+      models.Users.findOne({
         where: {
-          staff_id: req.user._id
+          id: req.user._id
         }
       }).then(function (user) {
         if (!user) return res.send(401);
 
-        req.staff = user;
+        req.user = user;
         next();
       });
     });
@@ -68,12 +68,12 @@ function hasPermission(permissionRequired, action) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       // get permissions with current user role
-      if (!req.staff.role)
+      if (!req.user.role)
         return res.send(403);
 
       models.sequelize
         .query('Select rp.value, p.alias, p.name from Permissions as p, Role_Permission as rp ' +
-                'Where rp.role = ' + req.staff.role + ' and rp.permission = p.id',
+                'Where rp.role = ' + req.user.role + ' and rp.permission = p.id',
                 { type: models.sequelize.QueryTypes.SELECT})
         .then(function(data){
           if (!data.length)
@@ -85,7 +85,7 @@ function hasPermission(permissionRequired, action) {
           });
 
           if (staffPermission) {
-            req.staff.permissions = permissions;
+            req.user.permissions = permissions;
 
             //FIND OUT PERMISSION VALUE 
             if (staffPermission['READ'] = staffPermission.value >> 3 >= 1)
