@@ -12,18 +12,48 @@ var validationError = function(res, err) {
 };
 
 var LIST_STAFF_ATTRIBUTE = [
-        'staff_id',
-        'staff_email',
-        'staff_name',
-        'staff_address',
-        'staff_phoneno',
-        'staff_postcode',
-        'staff_max_distance',
-        'staff_available_time',
-        'staff_location'
-      ];
+    'name',
+    'address',
+    'postcode',
+    'max_distance',
+    'available_time',
+    'location'
+  ];
 
-var STAFF_STATUS = {
+var LIST_MERCHANT_ATTRIBUTE = [
+    'name', 
+    'picture',
+    'time',
+    'notes', 
+    'charges',
+    'steps',
+    'min_order',
+    'opening_hours',
+    'category',
+    'is_delivery',
+    'special_offer',
+    'status',
+    'food'
+  ];
+
+var LIST_CUSTOMER_ATTRIBUTE = [
+    'name',
+    'screen_name',
+    'address',
+    'address1',
+    'city',
+    'post_code',
+    'dob',
+    'verified',
+    'status',
+    'co_user',
+    'co_company_name',
+    'co_job_title',
+    'co_total_employees',
+    'co_pay_method'
+  ];
+
+var USER_STATUS = {
   ACTIVE: "1",
   DELIVERING: "2",
   INACTIVE: "3"
@@ -31,7 +61,7 @@ var STAFF_STATUS = {
 
 
 /**
- * Get list of staffs
+ * Get list of users
  * restriction: 'admin'
  */
 exports.index = function(req, res) {
@@ -45,7 +75,7 @@ exports.index = function(req, res) {
 
   if (keywordForName){
     var whereCondition = {
-        staff_name: {
+        name: {
           $like: '%' + keywordForName + '%'
         }
       }
@@ -55,14 +85,14 @@ exports.index = function(req, res) {
   }
 
   try {
-    models.Staffs.findAll({
+    models.Users.findAll({
       where: whereCondition,
-      attributes: LIST_STAFF_ATTRIBUTE,
+      attributes: LIST_USER_ATTRIBUTE,
       offset: (pageNumber-1)*pageSize,
       limit: pageSize,
       include: [{model: models.Roles}]
-    }).then(function (staffs) {
-      res.json(200, {success: true, data: staffs});
+    }).then(function (users) {
+      res.json(200, {success: true, data: users});
     })
     .catch(function(exception){
       res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
@@ -73,19 +103,19 @@ exports.index = function(req, res) {
 };
 
 /**
- * Get list of active staff
+ * Get list of active user
  * restriction: 'admin'
  */
 exports.getActiveStaff = function(req, res) {
 
   try {
-    models.Staffs.findAll({
+    models.Users.findAll({
       where: {
-        staff_status: STAFF_STATUS.ACTIVE
+        status: USER_STATUS.ACTIVE
       },
-      attributes: LIST_STAFF_ATTRIBUTE
-    }).then(function (staffs) {
-      res.json(200, {success: true, data: staffs});
+      attributes: LIST_USER_ATTRIBUTE
+    }).then(function (users) {
+      res.json(200, {success: true, data: users});
     })
     .catch(function(exception){
       res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
@@ -97,7 +127,7 @@ exports.getActiveStaff = function(req, res) {
 
 
 /**
- * Creates a new staff
+ * Creates a new user
  */
 exports.create = function (req, res, next) {
   var newStaff = req.body;
@@ -108,10 +138,10 @@ exports.create = function (req, res, next) {
   }
 
   try {
-    models.Staffs
+    models.Users
     .create(newStaff)
-    .then(function(staff) {
-      if (!staff) res.json(500, { sucess: false, msg: 'Unknow issue - Can\'t create staff ' });
+    .then(function(user) {
+      if (!user) res.json(500, { sucess: false, msg: 'Unknow issue - Can\'t create user ' });
 
       res.json(200, { sucess: true });
     })
@@ -126,24 +156,24 @@ exports.create = function (req, res, next) {
 
 
 /**
- * Deletes a staff
+ * Deletes a user
  * restriction: 'admin'
  * 
  */
 exports.destroy = function(req, res) {
   if (!req.params.id){
-    return res.json(400, {success: false, msg: 'You must pass in staff !'});
+    return res.json(400, {success: false, msg: 'You must pass in user !'});
   }
 
   try{
-    models.Staffs
+    models.Users
       .destroy({
         where: {
-          staff_id: req.params.id
+          id: req.params.id
         }
       })
       .then(function(result) {
-        if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the staff ' });
+        if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the user ' });
         return res.json(200, {success: true});
       })
       .catch(function(exception){
@@ -156,11 +186,11 @@ exports.destroy = function(req, res) {
 };
 
 /**
- * Change a staffs password
- * Change current login staff password
+ * Change a users password
+ * Change current login user password
  */
 exports.changePassword = function(req, res, next) {
-  var staffId = req.staff.staff_id;
+  var userId = req.user.id;
   var oldPass = String(req.body.oldPassword);
   var newPass = String(req.body.newPassword);
 
@@ -169,22 +199,22 @@ exports.changePassword = function(req, res, next) {
   }
 
   try{
-    models.Staffs
+    models.Users
     .findOne({
       where: {
-        staff_id: staffId
+        id: userId
       }
     })
-    .then(function (staff) {
-      if(!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+    .then(function (user) {
+      if(!user) return res.json(404,{success: false, data: 'Can\'t find the user ' });
 
-      if(staff.authenticate(oldPass)) {
-        models.Staffs
+      if(user.authenticate(oldPass)) {
+        models.Users
         .update({
             password: newPass
           },{
             where: {
-              staff_id: staffId
+              id: userId
             }
         })
         .then(function(result) {
@@ -207,26 +237,26 @@ exports.changePassword = function(req, res, next) {
 
 
 /**
- * update a staffs information - you can update staff-password here
+ * update a users information - you can update user-password here
  * {result} {sucess: true/false}
  */
 exports.update = function(req, res, next) {
-  var staffId = req.params.id;
-  var staffInfo = req.body;
+  var userId = req.params.id;
+  var userInfo = req.body;
 
   try{
-    models.Staffs
+    models.Users
     .findOne({
       where: {
-        staff_id: staffId
+        id: userId
       }
     })
-    .then(function (staff) {
-      if(!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+    .then(function (user) {
+      if(!user) return res.json(404,{success: false, data: 'Can\'t find the user ' });
 
-      staff.update(staffInfo)
+      user.update(userInfo)
       .then(function(result) {
-        if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update staff information !' });
+        if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update user information !' });
         return res.json(200, {success: true});
       })
       .catch(function(exception){
@@ -244,20 +274,58 @@ exports.update = function(req, res, next) {
 
 /**
  * Get personal info
- * {result} personal info of current login staff
+ * {result} personal info of current login user
  */
+var USER_TYPES = {
+  STAFF: 'staff',
+  MERCHANT: 'merchant',
+  CUSTOMER: 'customer',
+}
 exports.me = function(req, res, next) {
-  var staffId = req.staff.staff_id;
-  
+  var userId = req.user.id;
+  var detailModel = {};
+  var attributes = [];
+
+  /*
+    Get Proper model base on user's type
+    there are three types:
+      1. staff - Staffs table
+      2. merchant - Merchants tables
+      3. customer - Customers table
+  */
+  switch (req.user.type){
+    case USER_TYPES.STAFF:
+      detailModel = models.Staffs;
+      attributes = LIST_STAFF_ATTRIBUTE;
+      break;
+
+    case USER_TYPES.MERCHANT:
+      detailModel = models.Merchants;
+      attributes = LIST_MERCHANT_ATTRIBUTE;
+      break;
+
+    case USER_TYPES.CUSTOMER:
+      detailModel = models.Customers;
+      attributes = LIST_CUSTOMER_ATTRIBUTE;
+      break;
+  };
+
   try{
-    models.Staffs.findOne({
+
+    detailModel.findOne({
       where: {
-        staff_id: staffId
-      },
-      attributes: LIST_STAFF_ATTRIBUTE
-    }).then(function(staff) {
-      if (!staff) return res.json(401, {sucess: false, msg: 'Can\'t find the your info !'});
-      res.json(200, {success: true, data: staff});
+        user_id: userId
+      }
+    }).then(function(info) {
+      if (!info) return res.json(401, {sucess: false, msg: 'Can\'t find the your info !'});
+
+      // get email/phoneno info from user
+      var result = _.pick(info, LIST_STAFF_ATTRIBUTE);
+      result.email = req.user.email;
+      result.phoneno = req.user.phoneno;
+      result.id = req.user.id;
+
+      res.json(200, {success: true, data: result});
     })
     .catch(function(exception){
       res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
@@ -272,8 +340,8 @@ exports.me = function(req, res, next) {
 
 
 /*
-  Update staff location
-  @param {Integer} staff id
+  Update user location
+  @param {Integer} user id
   @param {Float} Latitude
   @param {Float} Longtitude
 */
@@ -286,33 +354,33 @@ exports.updateLocation = function(req, res) {
   };
 
   try {
-    models.Staffs
+    models.Users
       .findOne({
         where: {
-          staff_id: req.staff.staff_id
+          id: req.user.id
         }
       })
-      .then(function(staff) {
-        if (!staff) {
+      .then(function(user) {
+        if (!user) {
           return res.json(404, {
             success: false,
-            msg: 'Can\'t find the staff '
+            msg: 'Can\'t find the user '
           });
         }
 
-        models.Staffs.update({
-          staff_location: JSON.stringify({
+        models.Users.update({
+          location: JSON.stringify({
             lat: req.body.lat,
             lon: req.body.lon
           }),
         }, {
           where: {
-            staff_id: req.staff.staff_id
+            id: req.user.id
           }
         }).then(function(result) {
           if (result[0] == 1){
-            userSocket.broadcastData('staff:location_change', {
-              id: req.staff.staff_id,
+            userSocket.broadcastData('user:location_change', {
+              id: req.user.id,
               lat: req.body.lat,
               lon: req.body.lon
             });
@@ -339,61 +407,49 @@ exports.updateLocation = function(req, res) {
 
 
 /*
-  Update staff location
-  @param {Integer} staff id
+  Update user location
+  @param {Integer} user id
   @param {Interge} Status
 */
 
 exports.changeStatus = function(req, res) {
   if (!req.body.status) {
-    return res.json(400, {
-      success: false,
-      msg: 'Please pass in right data'
-    });
+    return res.json(400, {success: false, msg: 'Please pass in right data'});
   };
 
   try {
-    models.Staffs
+    models.Users
       .findOne({
         where: {
-          staff_id: req.staff.staff_id
+          id: req.user.id
         }
       })
-      .then(function(staff) {
-        if (!staff) {
-          return res.json(404, {
-            success: false,
-            msg: 'Can\'t find the staff '
-          });
+      .then(function(user) {
+        if (!user) {
+          return res.json(404, { success: false, msg: 'Can\'t find the user '});
         }
 
-        models.Staffs.update({
-          staff_status: req.body.status.toString(),
+        models.Users.update({
+          status: req.body.status.toString(),
         }, {
           where: {
-            staff_id: req.staff.staff_id
+            id: req.user.id
           }
         }).then(function(result) {
           if (result[0] == 1){
-            staff.staff_status = req.body.status;
-            userSocket.broadcastData('staff:status_change', staff);
+            user.status = req.body.status;
+            userSocket.broadcastData('user:status_change', user);
             return res.json(200, {
               sucess: true
             });
           }
           else
-            return res.json(422, {
-              success: false,
-              msg: 'Please double check the input lat lon. '
-            });
+            return res.json(422, {success: false, msg: 'Please double check the input lat lon. '});
         });
 
       });
   } catch (exception) {
-    return res.json(500, {
-      success: false,
-      data: exception
-    });
+    return res.json(500, {success: false, data: exception});
   }
 
 };

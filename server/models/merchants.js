@@ -1,87 +1,72 @@
 
 module.exports = function(sequelize, DataTypes) {
   var Merchants = sequelize.define('Merchants', {
-    type_id: {
+    id: {
       type: DataTypes.INTEGER(11),
-      autoIncrement: true,
-      primaryKey: true
+      allowNull: false,
     },
-    type_name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_email: {
+    picture: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_password: {
+    time: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_picture: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    type_phoneno: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    type_time: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    type_notes: {
+    notes: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    type_charges: {
+    charges: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_steps: {
+    steps: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_min_order: {
+    min_order: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_opening_hours: {
+    opening_hours: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    type_category: {
+    category: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_is_delivery: {
+    is_delivery: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_special_offer: {
+    special_offer: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    type_status: {
+    status: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type_date_added: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: DataTypes.NOW
-    },
-    type_food: {
+    food: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    user_id: {
+      type: DataTypes.INTEGER(11),
+      allowNull: false,
     }
   },
   {
-    timestamps: false,
     classMethods: {
       associate: function(models) {
         // associations can be defined here
-        Merchants.hasMany(models.Locations, {foreignKey: 'location_menu_id'});
+        Merchants.belongsTo(models.Users, {foreignKey: 'user_id'});
       }
     }
   });

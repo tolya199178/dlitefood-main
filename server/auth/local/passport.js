@@ -3,18 +3,18 @@ var LocalStrategy = require('passport-local').Strategy;
 
 exports.setup = function (User, config) {
   passport.use(new LocalStrategy({
-      usernameField: 'phoneno',
+      usernameField: 'email',
       passwordField: 'password' // this is the virtual field on the model
     },
-    function(phoneno, password, done) {
+    function(email, password, done) {
       User.findOne({
         where: {
-          staff_phoneno: phoneno.toLowerCase()
+          email: email.toLowerCase()
         }
       }).then(function(user) {
         
         if (!user) {
-          return done(null, false, { message: 'This phoneno is not registered.' });
+          return done(null, false, { message: 'This email is not registered.' });
         }
         if (!user.authenticate(password)) {
           return done(null, false, { message: 'This password is not correct.' });
