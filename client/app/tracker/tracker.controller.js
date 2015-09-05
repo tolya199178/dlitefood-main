@@ -15,6 +15,7 @@ angular.module('dLiteMeAdmin')
     $scope.bounds = new google.maps.LatLngBounds ();
 
     $scope.$on('mapInitialized', function(event, map) {
+
       /*
        Get list active drivers
       */
@@ -120,10 +121,56 @@ angular.module('dLiteMeAdmin')
   })
 
   .controller('TrackerStreetCtrl', function ($scope, TrackerServices) {
-    $scope.streetPos = {};
+    $scope.streetPos = {
+      lat: 40.688738,
+      lon: -74.043871
+    };
     $scope.showStreetMap = true;
-    
-    $scope.$on('mapInitialized', function(event, map) {
+    $scope.selectedDriver = "0";
+
+    function changeStreetMapPos(lat, lon){
+      var latLng = new google.maps.LatLng (lat, lon);
+      // $scope.panorama.setPosition({lat: lat, lng: lon});
+      
+      $scope.panorama = new google.maps.StreetViewPanorama(
+        document.getElementById('pano'), {
+          position: {lat: 37.869, lng: -122.255},
+          pov: {
+            heading: 270,
+            pitch: 0
+          },
+          visible: true
+      });
+      // $scope.map.setCenter(latLng);
+      // panorama.setVisible(true);
+    }
+
+    $scope.selectDriver = function(){
+      var driver = _.find($scope.drivers, function(driver){
+        return driver.staff_id == parseInt($scope.selectedDriver);
+      });
+
+      if (driver.staff_location){
+        $scope.streetPos = JSON.parse(driver.staff_location);
+        changeStreetMapPos($scope.streetPos.lat, $scope.streetPos.lon);
+      }else{
+        alert("This staff doesn't have location information !! ")
+      }
+      
+    }
+
+    $scope.panorama = new google.maps.StreetViewPanorama(
+      document.getElementById('pano'), {
+        position: {lat: 37.869, lng: -122.255},
+        pov: {
+          heading: 270,
+          pitch: 0
+        },
+        visible: true
+    });
+
+    // $scope.$on('mapInitialized', function(event, map) {
+
       /*
        Get list active drivers
       */
@@ -136,6 +183,6 @@ angular.module('dLiteMeAdmin')
             alert("Can't get driver information: " + result.msg);
           }
         });
-    });
+    // });
 
   });
