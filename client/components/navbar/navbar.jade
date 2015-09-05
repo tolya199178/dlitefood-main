@@ -33,3 +33,15 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
         a(ui-sref='customer')
           i.fa.fa-group
           span.nav-label {{ 'Customers'}}
+      li(ng-class="{active: $state.includes('orders')}")
+        a(ui-sref="orders")
+          i.fa.fa-cubes
+          span.nav-label {{ 'Orders' }}
+      li(ng-class="{active: $state.includes('merchants')}")
+        a(ui-sref="merchants")
+          i.fa.fa-paw
+          span.nav-label {{ 'Merchants' }}
+      li(ng-class="{active: $state.includes('settings')}")
+        a(ui-sref="settings")
+          i.fa.fa-cogs
+          span.nav-label {{ 'Settings' }}
