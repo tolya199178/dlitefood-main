@@ -117,6 +117,20 @@ module.exports = function(sequelize, DataTypes) {
           });
 
         });
+      },
+
+      updateUser: function(userInfo, callback){
+        this.update(userInfo, {
+          where: {
+            id: userInfo.id
+          }
+        }).then(function(result){
+          if (!result) callback({ sucess: false, msg: 'Unknow issue - Can\'t create user ' });
+          callback({success: true});
+        })
+        .catch(function(exception){
+          return callback({success: false, msg: exception.toString()});
+        });;
       }
     },
     instanceMethods: {
