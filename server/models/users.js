@@ -22,9 +22,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
     },
+
     password: {
       type: DataTypes.VIRTUAL,
       set: function(val) {
+        this._password = val;
         this.hashedpassword = this.encryptPassword(val);
 
         // this.setDataValue('password', val); // Remember to set the data value, otherwise it won't be validated
@@ -32,11 +34,6 @@ module.exports = function(sequelize, DataTypes) {
       },
       get: function() {
         return this._password;
-      },
-      validate: function(val) {
-        if (val.length < 7) {
-          throw new Error("Please choose a longer password")
-        }
       }
     },
     hashedpassword: {
@@ -48,9 +45,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER(1),
       allowNull: false,
-      defaultValue: '3'
+      defaultValue: 1
     },
     role: {
       type: DataTypes.INTEGER(11),
@@ -59,12 +56,10 @@ module.exports = function(sequelize, DataTypes) {
     createdAt: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: 'CURRENT_TIMESTAMP'
     },
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: true,
-      defaultValue: 'CURRENT_TIMESTAMP'
     },
     provider: {
       type: DataTypes.STRING,
@@ -81,6 +76,47 @@ module.exports = function(sequelize, DataTypes) {
       associate: function(models) {
         // associations can be defined here
         Users.belongsTo(models.Roles, {foreignKey: 'role'});
+      },
+      /**
+       * Creates a new user
+       * @param {email}
+       * @param {phoneno}
+       * @param {password}
+       * @param {name}
+       * @param {role}
+       * @param {type}
+       * @result {Object} {sucess: true/false, id: 'in success case'}
+      */
+      createUser: function(userInfo, callback){
+
+        /*
+          Check if exist user with email or phoneno
+        */
+        this.findAll({
+          where: {
+            $or: [{
+              email: userInfo.email
+            },{
+              phoneno: userInfo.phoneno
+            }]
+          }
+        }).then(function(result){
+          // exist other account
+          if (result.length){
+            return callback({success: false, msg: 'Duplicated user with email or phoneno !!'})
+          }
+
+          // no exist - can create user info
+          this.create(userInfo)
+          .then(function(user) {
+            if (!user) callback({ sucess: false, msg: 'Unknow issue - Can\'t create user ' });
+            callback({success: true, user: user});
+          })
+          .catch(function(exception){
+            return callback({success: false, msg: exception.toString()});
+          });
+
+        });
       }
     },
     instanceMethods: {

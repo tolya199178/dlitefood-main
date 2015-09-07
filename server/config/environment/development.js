@@ -7,7 +7,7 @@ module.exports = {
   mysql: {
     username: "root",
     password: "",
-    database: "justfast_food",
+    database: "justfast_food", //"justfast_food",
     host: "127.0.0.1",
     dialect: "mysql",
     logging: false
