@@ -96,10 +96,10 @@ exports.index = function(req, res) {
       res.json(200, {success: true, data: users});
     })
     .catch(function(exception){
-      res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown !!!'});
+      handlerException (res, exception);
     });;
   } catch (exception){
-    res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown !!!'});
+    handlerException (res, exception);
   }
 };
 
@@ -107,24 +107,24 @@ exports.index = function(req, res) {
  * Get list of active user
  * restriction: 'admin'
  */
-exports.getActiveStaff = function(req, res) {
+// exports.getActiveStaff = function(req, res) {
 
-  try {
-    models.Users.findAll({
-      where: {
-        status: USER_STATUS.ACTIVE
-      },
-      attributes: LIST_STAFF_ATTRIBUTE
-    }).then(function (users) {
-      res.json(200, {success: true, data: users});
-    })
-    .catch(function(exception){
-      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-    });;
-  } catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-};
+//   try {
+//     models.Staffs.findAll({
+//       where: {
+//         status: USER_STATUS.ACTIVE
+//       },
+//       attributes: LIST_STAFF_ATTRIBUTE
+//     }).then(function (users) {
+//       res.json(200, {success: true, data: users});
+//     })
+//     .catch(function(exception){
+//       res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+//     });;
+//   } catch (exception){
+//     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+//   }
+// };
 
 
 
@@ -142,6 +142,7 @@ var USER_STATUS = {
  * @param {name}
  * @param {address}
  * @param {avaiable_time}
+ * @param {max_distance}
  * @param {postcode}
  * @param {role}
  * @result {Object} {sucess: true/false, id: 'in success case'}
@@ -150,7 +151,6 @@ var USER_STATUS = {
 exports.create = function (req, res, next) {
   var newStaff = req.body;
   newStaff.provider = 'local';
-  newStaff.role = newStaff.role.toString();
   if (!newStaff.email ||
       !newStaff.phoneno ||
       !newStaff.password ||
@@ -195,7 +195,7 @@ exports.create = function (req, res, next) {
       res.json(200, {success: true, staff: staff});
     })
     .catch(function(exception){
-      res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown !!!'});
+      handlerException (res, exception);
     });
 
   });
@@ -204,31 +204,115 @@ exports.create = function (req, res, next) {
 
 
 /**
- * Deletes a user
+ * Update a staff information 
  * restriction: 'admin'
- * 
+ * @param {email}
+ * @param {phoneno}
+ * @param {password}
+ * @param {name}
+ * @param {address}
+ * @param {avaiable_time}
+ * @param {max_distance}
+ * @param {postcode}
+ * @param {role}
+ * @result {Object} {success: true/false}
+ * @description
+ *  There a two kind of information we need update, 
+ *    - first for user info: email, phoneno, password
+      - sencond 
+ *  Staff information.
+ */
+exports.update = function(req, res) {
+  if (!req.params.id){
+    return res.json(400, {success: false, msg: 'You must pass in user !'});
+  }
+
+  models.Staffs.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{model: models.Users}]
+  }).then(function(staff){
+    if (!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+    // staff = _.merge(staff, req.body);
+
+    // update staff info
+    models.Staffs
+      .update(req.body, {
+        where: {
+          id: staff.id
+        }
+      })
+      .then(function(result){
+        if (!result)  return res.json(500,{success: false, data: 'Can\'t update the staff info' });
+
+        // update user info
+        var user = {
+          password: req.body.password,
+          email: req.body.email,
+          phoneno: req.body.phoneno,
+          id: staff.User.id
+        };
+        models.Users.updateUser(user, function(data){
+          if (!data.success){
+            return res.json(500, data);
+          }else{
+            return res.json(200, data);
+          }
+          
+        });
+      });
+
+  })
+  .catch(function(exception){
+    handlerException (res, exception);
+  });
+
+};
+
+/**
+ * Deletes a staff
+ * restriction: 'admin'
+ * @param {INT} staffId in params.id
+ * @result {Object} {success: true/false}
  */
 exports.destroy = function(req, res) {
   if (!req.params.id){
     return res.json(400, {success: false, msg: 'You must pass in user !'});
   }
 
-  try{
-    models.Users
-      .destroy({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(function(result) {
-        if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the user ' });
-        return res.json(200, {success: true});
-      })
-      .catch(function(exception){
-        res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-      });
-  } catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-  
+  models.Staffs.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: [{model: models.Users}]
+  }).then(function(staff){
+    if (!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+
+    // delete linked user, we use cascade on User vs Staff
+    // so when we delete user, the staff will be delete too
+
+    models.Users.destroy({
+      where: {
+        id: staff.User.id
+      }
+    })
+    .then(function(result){
+      if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the user ' });
+      res.json(200, {success: true});
+    })
+    .catch(function(exception){
+      handlerException (res, exception);
+    });
+      
+  })
+  .catch(function(exception){
+    handlerException (res, exception);
+  });
+
 };
+
+
+function handlerException (res, ex){
+  res.json(500, {success: false, data: ex.toString(), msg: 'Exception thrown !!!'});
+}
