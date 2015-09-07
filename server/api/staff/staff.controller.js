@@ -21,10 +21,10 @@ var LIST_STAFF_ATTRIBUTE = [
   ];
 
 var LIST_MERCHANT_ATTRIBUTE = [
-    'name', 
+    'name',
     'picture',
     'time',
-    'notes', 
+    'notes',
     'charges',
     'steps',
     'min_order',
@@ -206,7 +206,7 @@ exports.create = function (req, res, next) {
 /**
  * Deletes a user
  * restriction: 'admin'
- * 
+ *
  */
 exports.destroy = function(req, res) {
   if (!req.params.id){
@@ -230,5 +230,5 @@ exports.destroy = function(req, res) {
   } catch (exception){
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
   }
-  
+
 };

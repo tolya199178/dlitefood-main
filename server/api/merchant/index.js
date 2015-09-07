@@ -2,10 +2,13 @@
 
 var express = require('express');
 var controller = require('./merchant.controller');
+var config = require('../../config/environment');
+var auth = require('../../auth/auth.service');
+
 
 var router = express.Router();
 
-router.get('/', controller.index);
+router.get('/', auth.hasPermission('MERCHANT_MANAGEMENT', 'Read'), controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
 router.put('/:id', controller.update);
