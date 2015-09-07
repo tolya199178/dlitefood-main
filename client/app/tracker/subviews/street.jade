@@ -1,13 +1,12 @@
 #map_canvas
-  select(ng-model="selectedDriver", ng-change="selectDriver()")
-    option(value="0") Select Staff
-    option(ng-repeat="driver in drivers", value="{{driver.staff_id}}") {{driver.staff_name}}
-  //- map(zoom="18" center="40.740, -74.18")
-
-  #pano(style="width: 100%; height: 500px;")
-    //- street-view-panorama(
-    //-   click-to-go="true",
-    //-   disable-default-u-i="false",
-    //-   disable-double-click-zoom="false",
-    //-   visible="true")
-  
+  .col-lg-3.ibox
+    select.form-control(ng-model="selectedDriver", ng-change="selectDriver()", type="")
+      option(value="0") Select a driver to view location...
+      option(ng-repeat="driver in drivers", value="{{driver.staff_id}}") {{driver.staff_name}}
+  .ibox
+    #pano(style="width: 100%; height: 420px;")
+      //- street-view-panorama(
+      //-   click-to-go="true",
+      //-   disable-default-u-i="false",
+      //-   disable-double-click-zoom="false",
+      //-   visible="true")
