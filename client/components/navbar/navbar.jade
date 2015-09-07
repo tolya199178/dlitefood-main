@@ -29,10 +29,10 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
           i.fa.fa-users
           span.nav-label {{ 'Manage Staff'}}
 
-      li(ng-class="{active: $state.includes('customer')}")
-        a(ui-sref='customer')
+      li(ng-class="{active: $state.includes('users')}")
+        a(ui-sref='users')
           i.fa.fa-group
-          span.nav-label {{ 'Customers'}}
+          span.nav-label {{ 'Users'}}
       li(ng-class="{active: $state.includes('orders')}")
         a(ui-sref="orders")
           i.fa.fa-cubes

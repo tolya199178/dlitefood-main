@@ -1,0 +1,13 @@
+.inmodal(data-ng-controller="usersCtrl")
+  .modal-header
+    h3 Edit Users
+  .modal-body
+    .row
+      form.form-horizontal(role="role")
+      .form-group
+        .col-lg-8
+          label.control-label Name
+            label.control-label.pull-right Hello
+  .modal-footer
+    button.btn.btn-primary(type="submit" data-ng-click="ok()") Save
+    button.btn.btn-danger(type="submit" data-ng-click="cancel()") Cancel

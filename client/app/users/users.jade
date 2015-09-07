@@ -1,0 +1,47 @@
+#wrapper(data-ng-controller="usersCtrl")
+  div(ng-include="'components/navbar/navbar.html'")
+
+  #page-wrapper.gray-bg(class='~$state.current.name~')
+    div(ng-include="'components/topbar/topbar.html'")
+
+    .wrapper.wrapper-content.animated.fadeIn
+     .row
+       .col-lg-12
+         .ibox
+           .ibox-title
+             h4 Review all members
+           .ibox-content
+             table.footable.table.toggle-arrow-tiny(data-page-size="15")
+               thead
+                tr
+                  th User ID
+                  th Full Name
+                  th Email
+                  th Date Added
+                  th Phone No.
+                  th Address
+                  th City
+                  th Status
+                  th Postal Code
+                  th.text-right Action
+               tbody
+                tr
+                  td 113
+                  td Kunle Adetayo
+                  td ifemiadetayo@outlook.com
+                  td 28-04-15 23:11
+                  td 07784966593
+                  td 10 Main Street
+                  td Brighton
+                  td
+                    span.label.label-primary Active
+
+                  td E2 7DD
+                  td.text-right
+                    .btn-group
+                      button.btn-warning.btn.btn-xs(data-ng-click="editUser()") Edit
+                      button.btn-danger.btn.btn-xs Delete
+              tfoot
+                tr
+                  td(colspan="8")
+                    ul.pagination.pull-right
