@@ -87,7 +87,7 @@ function hasPermission(permissionRequired, action) {
           if (staffPermission) {
             req.user.permissions = permissions;
 
-            //FIND OUT PERMISSION VALUE 
+            //FIND OUT PERMISSION VALUE
             if (staffPermission['READ'] = staffPermission.value >> 3 >= 1)
               staffPermission.value -= 8;
 
@@ -103,7 +103,7 @@ function hasPermission(permissionRequired, action) {
             if (staffPermission[action])
               next();
             else
-              res.send(403);  
+              res.send(403);
           }
           else {
             res.send(403);

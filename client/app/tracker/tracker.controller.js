@@ -26,7 +26,7 @@ angular.module('dLiteMeAdmin')
             fitZoomToWrapMarker();
           }
           else{
-            alert("Can't get driver information: " + result.msg);
+            alert("Can't get active driver information: " + result.msg);
           }
         });
     });
@@ -69,9 +69,9 @@ angular.module('dLiteMeAdmin')
 
         fitZoomToWrapMarker();
       }
-      
+
     }
-    
+
 
     /*
       Init marker for driver
@@ -100,7 +100,7 @@ angular.module('dLiteMeAdmin')
           latLng.staff_id = driver.staff_id; // to keep track which driver that bounce belong to
           $scope.bounds.extend(latLng);
 
-          driver.marker = initMarker(pos.lat, pos.lon, driver.staff_name); 
+          driver.marker = initMarker(pos.lat, pos.lon, driver.staff_name);
         }
         else if (driver.staff_postcode){
 
@@ -117,7 +117,7 @@ angular.module('dLiteMeAdmin')
       $scope.map.fitBounds ($scope.bounds);
     }
 
-    
+
   })
 
   .controller('TrackerStreetCtrl', function ($scope, TrackerServices) {
@@ -131,7 +131,7 @@ angular.module('dLiteMeAdmin')
     function changeStreetMapPos(lat, lon){
       var latLng = new google.maps.LatLng (lat, lon);
       // $scope.panorama.setPosition({lat: lat, lng: lon});
-      
+
       $scope.panorama = new google.maps.StreetViewPanorama(
         document.getElementById('pano'), {
           position: {lat: 37.869, lng: -122.255},
@@ -156,7 +156,7 @@ angular.module('dLiteMeAdmin')
       }else{
         alert("This staff doesn't have location information !! ")
       }
-      
+
     }
 
     $scope.panorama = new google.maps.StreetViewPanorama(
