@@ -1,6 +1,6 @@
 var module = angular.module('dLiteMeAdmin');
 
-module.factory('ManageStaffCtrl', [
+module.factory('ManageStaffSrv', [
   'api',
   'Auth',
   'queryString',
