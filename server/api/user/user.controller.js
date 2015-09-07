@@ -53,149 +53,22 @@ var LIST_CUSTOMER_ATTRIBUTE = [
     'co_pay_method'
   ];
 
-var USER_STATUS = {
-  ACTIVE: "1",
-  DELIVERING: "2",
-  INACTIVE: "3"
-};
 
-
-/**
- * Get list of users
- * restriction: 'admin'
- */
-exports.index = function(req, res) {
-
-  /*
-    Set default value for parameters
-  */
-  var  keywordForName = req.query.name || "";
-  var pageNumber = parseInt(req.query.pageNumber) || 1;
-  var pageSize = parseInt(req.query.pageSize) || 20;
-
-  if (keywordForName){
-    var whereCondition = {
-        name: {
-          $like: '%' + keywordForName + '%'
-        }
-      }
-  }
-  else{
-    var whereCondition = {};
-  }
-
-  try {
-    models.Users.findAll({
-      where: whereCondition,
-      attributes: LIST_USER_ATTRIBUTE,
-      offset: (pageNumber-1)*pageSize,
-      limit: pageSize,
-      include: [{model: models.Roles}]
-    }).then(function (users) {
-      res.json(200, {success: true, data: users});
-    })
-    .catch(function(exception){
-      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-    });;
-  } catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-};
-
-/**
- * Get list of active user
- * restriction: 'admin'
- */
-exports.getActiveStaff = function(req, res) {
-
-  try {
-    models.Users.findAll({
-      where: {
-        status: USER_STATUS.ACTIVE
-      },
-      attributes: LIST_USER_ATTRIBUTE
-    }).then(function (users) {
-      res.json(200, {success: true, data: users});
-    })
-    .catch(function(exception){
-      res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-    });;
-  } catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-};
-
-
-/**
- * Creates a new user
- */
-exports.create = function (req, res, next) {
-  var newStaff = req.body;
-  newStaff.provider = 'local';
-
-  if (!newStaff.role){
-    return res.json(400, {success: false, msg: 'You must pass in role !'});
-  }
-
-  try {
-    models.Users
-    .create(newStaff)
-    .then(function(user) {
-      if (!user) res.json(500, { sucess: false, msg: 'Unknow issue - Can\'t create user ' });
-
-      res.json(200, { sucess: true });
-    })
-    .catch(function(exception){
-      res.json(400, {success: false, data: exception, msg: 'Please pass in proper inputs !!!'});  
-    });
-  } catch (exception) {
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-  
-};
-
-
-/**
- * Deletes a user
- * restriction: 'admin'
- * 
- */
-exports.destroy = function(req, res) {
-  if (!req.params.id){
-    return res.json(400, {success: false, msg: 'You must pass in user !'});
-  }
-
-  try{
-    models.Users
-      .destroy({
-        where: {
-          id: req.params.id
-        }
-      })
-      .then(function(result) {
-        if(result != 1) return res.json(404,{success: false, data: 'Can\'t delete the user ' });
-        return res.json(200, {success: true});
-      })
-      .catch(function(exception){
-        res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-      });
-  } catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-  
-};
 
 /**
  * Change a users password
  * Change current login user password
+ * @param {String} oldPassword
+ * @param {String} newPassword
+ * @result {Object} {success: true/false }
  */
 exports.changePassword = function(req, res, next) {
   var userId = req.user.id;
-  var oldPass = String(req.body.oldPassword);
-  var newPass = String(req.body.newPassword);
+  var oldPass = req.body.oldPassword;
+  var newPass = req.body.newPassword;
 
-  if (!oldPass || !newPass){
-    return res.json(400, {success: false, msg: 'You must pass in passwords !'});
+  if (!oldPass || !newPass || newPass.length < 7){
+    return res.json(400, {success: false, msg: 'You must pass in valid passwords and new password must be at least 7 character length !'});
   }
 
   try{
@@ -208,22 +81,31 @@ exports.changePassword = function(req, res, next) {
     .then(function (user) {
       if(!user) return res.json(404,{success: false, data: 'Can\'t find the user ' });
 
+      // if oldPass in correct
       if(user.authenticate(oldPass)) {
-        models.Users
-        .update({
+        user.update({
             password: newPass
           },{
             where: {
               id: userId
             }
         })
+
+        /*
+          Success case
+        */
         .then(function(result) {
-          if (result != 1) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
+          if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update password !' });
           return res.json(200, {success: true});
         })
+
+        /*
+          Failed case
+        */
         .catch(function(exception){
-          res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
+          res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown !!!'});
         });
+
       } else {
         return res.json(403, {success: false, msg: 'Forbidden'});
       }
@@ -236,40 +118,6 @@ exports.changePassword = function(req, res, next) {
 };
 
 
-/**
- * update a users information - you can update user-password here
- * {result} {sucess: true/false}
- */
-exports.update = function(req, res, next) {
-  var userId = req.params.id;
-  var userInfo = req.body;
-
-  try{
-    models.Users
-    .findOne({
-      where: {
-        id: userId
-      }
-    })
-    .then(function (user) {
-      if(!user) return res.json(404,{success: false, data: 'Can\'t find the user ' });
-
-      user.update(userInfo)
-      .then(function(result) {
-        if (!result) return res.json(404,{success: false, data: 'Unknown issue - can\'t update user information !' });
-        return res.json(200, {success: true});
-      })
-      .catch(function(exception){
-        res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-      });
-         
-    });
-  }
-  catch (exception){
-    res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
-  }
-  
-};
 
 
 /**
@@ -310,6 +158,9 @@ exports.me = function(req, res, next) {
       break;
   };
 
+  /*
+    Get User detail
+  */
   try{
 
     detailModel.findOne({
@@ -337,127 +188,3 @@ exports.me = function(req, res, next) {
   
 };
 
-
-
-/*
-  Update user location
-  @param {Integer} user id
-  @param {Float} Latitude
-  @param {Float} Longtitude
-*/
-exports.updateLocation = function(req, res) {
-  if (!req.body.lat || !req.body.lon) {
-    return res.json(400, {
-      success: false,
-      msg: 'Please pass in right data'
-    });
-  };
-
-  try {
-    models.Users
-      .findOne({
-        where: {
-          id: req.user.id
-        }
-      })
-      .then(function(user) {
-        if (!user) {
-          return res.json(404, {
-            success: false,
-            msg: 'Can\'t find the user '
-          });
-        }
-
-        models.Users.update({
-          location: JSON.stringify({
-            lat: req.body.lat,
-            lon: req.body.lon
-          }),
-        }, {
-          where: {
-            id: req.user.id
-          }
-        }).then(function(result) {
-          if (result[0] == 1){
-            userSocket.broadcastData('user:location_change', {
-              id: req.user.id,
-              lat: req.body.lat,
-              lon: req.body.lon
-            });
-            return res.json(200, {
-              sucess: true
-            });
-          }
-          else
-            return res.json(422, {
-              success: false,
-              msg: 'Please double check the input lat lon. '
-            });
-        });
-
-      });
-  } catch (exception) {
-    return res.json(500, {
-      success: false,
-      data: exception
-    });
-  }
-
-};
-
-
-/*
-  Update user location
-  @param {Integer} user id
-  @param {Interge} Status
-*/
-
-exports.changeStatus = function(req, res) {
-  if (!req.body.status) {
-    return res.json(400, {success: false, msg: 'Please pass in right data'});
-  };
-
-  try {
-    models.Users
-      .findOne({
-        where: {
-          id: req.user.id
-        }
-      })
-      .then(function(user) {
-        if (!user) {
-          return res.json(404, { success: false, msg: 'Can\'t find the user '});
-        }
-
-        models.Users.update({
-          status: req.body.status.toString(),
-        }, {
-          where: {
-            id: req.user.id
-          }
-        }).then(function(result) {
-          if (result[0] == 1){
-            user.status = req.body.status;
-            userSocket.broadcastData('user:status_change', user);
-            return res.json(200, {
-              sucess: true
-            });
-          }
-          else
-            return res.json(422, {success: false, msg: 'Please double check the input lat lon. '});
-        });
-
-      });
-  } catch (exception) {
-    return res.json(500, {success: false, data: exception});
-  }
-
-};
-
-
-/**
- * Authentication callback
- */
-exports.authCallback = function(req, res, next) {
-  res.redirect('/login');
-};
