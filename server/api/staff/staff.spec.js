@@ -7,7 +7,7 @@ var lodash = require('lodash');
 var utils = require('../../../test/utils');
 
 
-describe('GET /api/staffs', function() {
+describe('/api/staffs', function() {
   
   /*
     Authentication
@@ -30,6 +30,10 @@ describe('GET /api/staffs', function() {
       });
   });
 
+
+  /*
+    Test get list staff
+  */
   it('should Get List staff ', function(done) {
     request(app)
       .get('/api/staffs')
@@ -44,6 +48,10 @@ describe('GET /api/staffs', function() {
       });
   });
 
+
+  /*
+    Test create staff
+  */
   var staffInfo = {};
 
   it('should Create a staff ', function(done) {
@@ -71,11 +79,15 @@ describe('GET /api/staffs', function() {
       .expect('Content-Type', /json/)
       .end(function(err, res) {
         res.body.success.should.be.equal(true);
-        staffInfo = res.body.staff;
+        staffInfo = res.body.data;
         done();
       });
   });
 
+
+  /*
+    Test update staff
+  */
   it('should update a staff ', function(done) {
     (staffInfo.id > 0).should.equal(true);
 
@@ -102,16 +114,18 @@ describe('GET /api/staffs', function() {
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        console.log
         res.body.success.should.be.equal(true);
         done();
       });
   });
 
+
+  /*
+    Test delete staff
+  */
   it('should delete a staff ', function(done) {
     (staffInfo.id > 0).should.equal(true);
     
-   
     request(app)
       .delete('/api/staffs/' + staffInfo.id)
       .set({

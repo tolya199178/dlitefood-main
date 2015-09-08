@@ -117,7 +117,7 @@ exports.create = function (req, res, next) {
     models.Merchants.create(newMerchant).then(function(merchant){
       if (!merchant) res.json(400, {success: false, msg: 'Unknow issue !!'});
 
-      res.json(200, {success: true, merchant: merchant});
+      res.json(200, {success: true, data: merchant});
     })
     .catch(function(exception){
       handlerException (res, exception);
@@ -131,7 +131,7 @@ exports.create = function (req, res, next) {
 /**
  * Update a merchant information
  * restriction: 'admin'
-* @param {email}
+ * @param {email}
  * @param {phoneno}
  * @param {password}
  * @param {name}
