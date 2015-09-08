@@ -245,7 +245,7 @@ exports.update = function(req, res) {
  */
 exports.destroy = function(req, res) {
   if (!req.params.id){
-    return res.json(400, {success: false, msg: 'You must pass in user !'});
+    return res.json(400, {success: false, msg: 'You must pass in staff !'});
   }
 
   models.Staffs.findOne({

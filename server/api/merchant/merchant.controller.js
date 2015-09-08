@@ -129,17 +129,22 @@ exports.create = function (req, res, next) {
 
 
 /**
- * Update a staff information
+ * Update a merchant information
  * restriction: 'admin'
- * @param {email}
+* @param {email}
  * @param {phoneno}
  * @param {password}
  * @param {name}
- * @param {address}
- * @param {avaiable_time}
- * @param {max_distance}
- * @param {postcode}
- * @param {role}
+ * @param {picture}
+ * @param {steps}
+ * @param {time}
+ * @param {notes}
+ * @param {charges}
+ * @param {min_order}
+ * @param {opening_hours}
+ * @param {category}
+ * @param {is_delivery}
+ * @param {special_offer}
  * @result {Object} {success: true/false}
  * @description
  *  There a two kind of information we need update,
@@ -152,31 +157,31 @@ exports.update = function(req, res) {
     return res.json(400, {success: false, msg: 'You must pass in user !'});
   }
 
-  models.Staffs.findOne({
+  models.Merchants.findOne({
     where: {
       id: req.params.id
     },
     include: [{model: models.Users}]
-  }).then(function(staff){
-    if (!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
-    // staff = _.merge(staff, req.body);
+  }).then(function(merchant){
+    if (!merchant) return res.json(404,{success: false, data: 'Can\'t find the merchant ' });
+    // merchant = _.merge(merchant, req.body);
 
-    // update staff info
-    models.Staffs
+    // update merchant info
+    models.Merchants
       .update(req.body, {
         where: {
-          id: staff.id
+          id: merchant.id
         }
       })
       .then(function(result){
-        if (!result)  return res.json(500,{success: false, data: 'Can\'t update the staff info' });
+        if (!result)  return res.json(500,{success: false, data: 'Can\'t update the merchant info' });
 
         // update user info
         var user = {
           password: req.body.password,
           email: req.body.email,
           phoneno: req.body.phoneno,
-          id: staff.User.id
+          id: merchant.User.id
         };
         models.Users.updateUser(user, function(data){
           if (!data.success){
@@ -196,9 +201,9 @@ exports.update = function(req, res) {
 };
 
 /**
- * Deletes a staff
+ * Deletes a merchant
  * restriction: 'admin'
- * @param {INT} staffId in params.id
+ * @param {INT} merchantId in params.id
  * @result {Object} {success: true/false}
  */
 exports.destroy = function(req, res) {
@@ -206,20 +211,20 @@ exports.destroy = function(req, res) {
     return res.json(400, {success: false, msg: 'You must pass in user !'});
   }
 
-  models.Staffs.findOne({
+  models.Merchants.findOne({
     where: {
       id: req.params.id
     },
     include: [{model: models.Users}]
-  }).then(function(staff){
-    if (!staff) return res.json(404,{success: false, data: 'Can\'t find the staff ' });
+  }).then(function(merchant){
+    if (!merchant) return res.json(404,{success: false, data: 'Can\'t find the merchant ' });
 
     // delete linked user, we use cascade on User vs Staff
-    // so when we delete user, the staff will be delete too
+    // so when we delete user, the merchant will be delete too
 
     models.Users.destroy({
       where: {
-        id: staff.User.id
+        id: merchant.User.id
       }
     })
     .then(function(result){

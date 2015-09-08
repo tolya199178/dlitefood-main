@@ -116,9 +116,9 @@ function hasPermission(permissionRequired, action) {
 /**
  * Returns a jwt token signed by the app secret
  */
-// function signToken(id) {
-//   return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
-// }
+function signToken(id) {
+  return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
+}
 
 /**
  * Set token cookie directly for oAuth strategies
@@ -133,5 +133,5 @@ function hasPermission(permissionRequired, action) {
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.hasPermission = hasPermission;
-// exports.signToken = signToken;
+exports.signToken = signToken;
 // exports.setTokenCookie = setTokenCookie;
