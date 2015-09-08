@@ -38,15 +38,14 @@ try {
   models.Merchants.findAll({
     include: [{model: models.Users, attributes: ['email', 'phoneno']}]
   } ).then( function (merchants) {
-
-    res.json(200, {success: true, data: merchants });
+    return res.json(200, {success: true, data: merchants });
   } ).catch( function (exception) {
 
-    res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown. Please review request'});
+    return res.json(500, {success: false, data: exception.toString(), msg: 'Exception thrown. Please review request'});
   });
 
 } catch (exception) {
-  res.json(500, {
+  return res.json(500, {
     success: false,
     data: exception.toString(),
     msg: 'Exception was thrown. Please review request data'

@@ -6,58 +6,17 @@ var request = require('supertest');
 var lodash = require('lodash');
 
 describe('GET /api/users', function() {
-  var LIST_STAFF_ATTRIBUTE = [
-    'name',
-    'address',
-    'postcode',
-    'max_distance',
-    'available_time',
-    'location'
-  ];
-
-var LIST_MERCHANT_ATTRIBUTE = [
-    'name', 
-    'picture',
-    'time',
-    'notes', 
-    'charges',
-    'steps',
-    'min_order',
-    'opening_hours',
-    'category',
-    'is_delivery',
-    'special_offer',
-    'status',
-    'food'
-  ];
-
-var LIST_CUSTOMER_ATTRIBUTE = [
-    'name',
-    'screen_name',
-    'address',
-    'address1',
-    'city',
-    'post_code',
-    'dob',
-    'verified',
-    'status',
-    'co_user',
-    'co_company_name',
-    'co_job_title',
-    'co_total_employees',
-    'co_pay_method'
-  ];
   
   /*
     Authentication
   */
   var token = "";
-  it('should login with admin account anhntbk08@gmail.com / 77777777', function(done) {
+  it('should login with admin account anhntbk08@gmail.com / anhlavip', function(done) {
     request(app)
       .post('/auth/local')
       .send({
         email: "anhntbk08@gmail.com",
-        password: "77777777"
+        password: "anhlavip"
       })
       .expect(200)
       .expect('Content-Type', /json/)
@@ -69,12 +28,12 @@ var LIST_CUSTOMER_ATTRIBUTE = [
       });
   });
 
-  it('should not login with admin account anhntbk08@gmail.com / 77777777', function(done) {
+  it('should not login with admin account anhntbk08@gmail.com / anhlavip', function(done) {
     request(app)
       .post('/auth/local')
       .send({
         email: "anhntbk08@gmail.com",
-        password: "77777777!@#$%^&*(QAZ VBNM<$%^&*("
+        password: "anhlavip!@#$%^&*(QAZ VBNM<$%^&*("
       })
       .expect(401)
       .expect('Content-Type', /json/)

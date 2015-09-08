@@ -206,9 +206,6 @@ exports.create = function (req, res, next) {
 /**
  * Update a staff information
  * restriction: 'admin'
-<<<<<<< HEAD
- *
-=======
  * @param {email}
  * @param {phoneno}
  * @param {password}
@@ -224,7 +221,6 @@ exports.create = function (req, res, next) {
  *    - first for user info: email, phoneno, password
       - sencond
  *  Staff information.
->>>>>>> 3295bc18e556607e9a9c4aa8c62d959f4535bb6c
  */
 exports.update = function(req, res) {
   if (!req.params.id){
