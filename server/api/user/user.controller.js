@@ -168,7 +168,7 @@ exports.me = function(req, res, next) {
         user_id: userId
       }
     }).then(function(info) {
-      if (!info) return res.json(401, {sucess: false, msg: 'Can\'t find the your info !'});
+      if (!info) return res.json(401, {success: false, msg: 'Can\'t find the your info !'});
 
       // get email/phoneno info from user
       var result = _.pick(info, LIST_STAFF_ATTRIBUTE);

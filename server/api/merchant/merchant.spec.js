@@ -106,7 +106,8 @@ describe('/api/merchants', function() {
       .expect(200)
       .expect('Content-Type', /json/)
       .end(function(err, res) {
-        res.body.success.should.be.equal(true);
+        console.log(res.body);
+        res.body.success.should.equal(true);
         done();
       });
   });

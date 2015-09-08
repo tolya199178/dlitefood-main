@@ -112,7 +112,7 @@ var USER_STATUS = {
  * @param {max_distance}
  * @param {postcode}
  * @param {role}
- * @result {Object} {sucess: true/false, id: 'in success case'}
+ * @result {Object} {success: true/false, id: 'in success case'}
  */
 
 exports.create = function (req, res, next) {
@@ -191,7 +191,7 @@ exports.create = function (req, res, next) {
  */
 exports.update = function(req, res) {
   if (!req.params.id){
-    return res.json(400, {success: false, msg: 'You must pass in user !'});
+    return res.json(400, {success: false, msg: 'You must pass in staff !'});
   }
 
   models.Staffs.findOne({
@@ -224,7 +224,7 @@ exports.update = function(req, res) {
           if (!data.success){
             return res.json(500, data);
           }else{
-            return res.json(200, data);
+            return res.json(200, {success: true});
           }
 
         });
