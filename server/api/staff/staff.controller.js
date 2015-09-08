@@ -20,39 +20,6 @@ var LIST_STAFF_ATTRIBUTE = [
     'location'
   ];
 
-var LIST_MERCHANT_ATTRIBUTE = [
-    'name',
-    'picture',
-    'time',
-    'notes',
-    'charges',
-    'steps',
-    'min_order',
-    'opening_hours',
-    'category',
-    'is_delivery',
-    'special_offer',
-    'status',
-    'food'
-  ];
-
-var LIST_CUSTOMER_ATTRIBUTE = [
-    'name',
-    'screen_name',
-    'address',
-    'address1',
-    'city',
-    'post_code',
-    'dob',
-    'verified',
-    'status',
-    'co_user',
-    'co_company_name',
-    'co_job_title',
-    'co_total_employees',
-    'co_pay_method'
-  ];
-
 var USER_STATUS = {
   ACTIVE: "1",
   DELIVERING: "2",
@@ -91,9 +58,9 @@ exports.index = function(req, res) {
       offset: (pageNumber-1)*pageSize,
       limit: pageSize,
       include: [{model: models.Users, attributes: ['email', 'phoneno']}]
-    }).then(function (users) {
+    }).then(function (staffs) {
        // get email/phoneno info from user
-      res.json(200, {success: true, data: users});
+      res.json(200, {success: true, data: staffs});
     })
     .catch(function(exception){
       handlerException (res, exception);
@@ -192,7 +159,7 @@ exports.create = function (req, res, next) {
     }).then(function(staff){
       if (!staff) res.json(400, {success: false, msg: 'Unknow issue !!'});
 
-      res.json(200, {success: true, staff: staff});
+      res.json(200, {success: true, data: staff});
     })
     .catch(function(exception){
       handlerException (res, exception);

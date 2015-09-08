@@ -48,7 +48,7 @@ function hasRole(roleRequired) {
   return compose()
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
-      // if (config.userRoles.indexOf(req.staff.role) >= config.userRoles.indexOf(roleRequired)) {
+      // if (config.userRoles.indexOf(req.user.role) >= config.userRoles.indexOf(roleRequired)) {
       //   next();
       // }
       // else {
@@ -68,7 +68,6 @@ function hasPermission(permissionRequired, action) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       // get permissions with current user role
-      console.log('inside role');
       if (!req.user.role)
         return res.send(403);
 
@@ -81,27 +80,27 @@ function hasPermission(permissionRequired, action) {
             return res.send(403);
 
           var permissions = data;
-          var staffPermission = _.find(permissions, function(permission){
+          var userPermission = _.find(permissions, function(permission){
             return permission.alias == permissionRequired;
           });
 
-          if (staffPermission) {
+          if (userPermission) {
             req.user.permissions = permissions;
-
+            
             //FIND OUT PERMISSION VALUE
-            if (staffPermission['READ'] = staffPermission.value >> 3 >= 1)
-              staffPermission.value -= 8;
+            if (userPermission['READ'] = userPermission.value >> 3 >= 1)
+              userPermission.value -= 8;
 
-            if (staffPermission['UPDATE'] = staffPermission.value >> 2 >= 1)
-              staffPermission.value -= 4;
+            if (userPermission['UPDATE'] = userPermission.value >> 2 >= 1)
+              userPermission.value -= 4;
 
-            if (staffPermission['CREATE'] = staffPermission.value >> 1 >= 1)
-              staffPermission.value -= 2;
+            if (userPermission['CREATE'] = userPermission.value >> 1 >= 1)
+              userPermission.value -= 2;
 
-            if (staffPermission['DELETE'] = staffPermission.value >> 0 >= 1)
-              staffPermission.value -= 1;
+            if (userPermission['DELETE'] = userPermission.value >> 0 >= 1)
+              userPermission.value -= 1;
 
-            if (staffPermission[action])
+            if (userPermission[action])
               next();
             else
               res.send(403);
@@ -117,22 +116,22 @@ function hasPermission(permissionRequired, action) {
 /**
  * Returns a jwt token signed by the app secret
  */
-function signToken(id) {
-  return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
-}
+// function signToken(id) {
+//   return jwt.sign({ _id: id }, config.secrets.session, { expiresInMinutes: 60*5 });
+// }
 
 /**
  * Set token cookie directly for oAuth strategies
  */
-function setTokenCookie(req, res) {
-  if (!req.staff) return res.json(404, { message: 'Something went wrong, please try again.'});
-  var token = signToken(req.staff._id, req.staff.role);
-  res.cookie('token', JSON.stringify(token));
-  res.redirect('/');
-}
+// function setTokenCookie(req, res) {
+//   if (!req.user) return res.json(404, { message: 'Something went wrong, please try again.'});
+//   var token = signToken(req.user._id, req.user.role);
+//   res.cookie('token', JSON.stringify(token));
+//   res.redirect('/');
+// }
 
 exports.isAuthenticated = isAuthenticated;
 exports.hasRole = hasRole;
 exports.hasPermission = hasPermission;
-exports.signToken = signToken;
-exports.setTokenCookie = setTokenCookie;
+// exports.signToken = signToken;
+// exports.setTokenCookie = setTokenCookie;

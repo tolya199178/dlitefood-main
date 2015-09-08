@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   var Merchants = sequelize.define('Merchants', {
     id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
@@ -50,7 +51,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     status: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER(1),
       allowNull: false,
     },
     food: {
@@ -68,7 +69,8 @@ module.exports = function(sequelize, DataTypes) {
         // associations can be defined here
         Merchants.belongsTo(models.Users, {foreignKey: 'user_id'});
       }
-    }
+    },
+    timestamps: true
   });
   return Merchants;
 };
