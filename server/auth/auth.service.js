@@ -68,7 +68,6 @@ function hasPermission(permissionRequired, action) {
     .use(isAuthenticated())
     .use(function meetsRequirements(req, res, next) {
       // get permissions with current user role
-      console.log('inside role');
       if (!req.user.role)
         return res.send(403);
 

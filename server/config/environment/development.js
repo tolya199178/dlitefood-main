@@ -13,6 +13,14 @@ module.exports = {
     logging: false
   },
 
+  cloudinary: {
+    cloudName: 'dy4lucetl',
+    apiKey: '717335745964917',
+    apiSecret: 'rB007wYr1iFDeFgKwfkUykUTBrA',
+    env: 'CLOUDINARY_URL=cloudinary://717335745964917:rB007wYr1iFDeFgKwfkUykUTBrA@dy4lucetl'
+
+  },
+
   userRoles: ['staff', 'supervisor', 'user', 'admin']
 
 };
