@@ -75,10 +75,10 @@ exports.create = function (req, res, next) {
     return res.json(400, {success: false, msg: 'You must pass in mandatory fields !'});
   }
 
-  
+
   // create merchant
   models.Items.create(newMerchantItem).then(function(item){
-    if (!item) res.json(400, {success: false, msg: 'Unknow issue !!'});
+    if (!item) res.json(400, {success: false, msg: 'Unknown issue !!'});
 
     res.json(200, {success: true, data: item});
   })

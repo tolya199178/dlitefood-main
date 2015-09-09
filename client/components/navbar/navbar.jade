@@ -41,6 +41,10 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
         a(ui-sref="merchants")
           i.fa.fa-paw
           span.nav-label {{ 'Merchants' }}
+          ul.nav.nav-second-level.collapse
+            li(ng-class="{active: $state.includes('merchants-items')}")
+              a(ui-sref="merchants-items")
+                span.nav-label {{ Items }}
       li(ng-class="{active: $state.includes('settings')}")
         a(ui-sref="settings")
           i.fa.fa-cogs

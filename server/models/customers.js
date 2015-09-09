@@ -22,13 +22,13 @@ module.exports = function(sequelize, DataTypes) {
     },
     address1: {
       type: DataTypes.TEXT,
-      allowNull: false,
+      allowNull: true,
     },
     city: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
-    post_code: {
+    postcode: {
       type: DataTypes.STRING,
       allowNull: false,
     },

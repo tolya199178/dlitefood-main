@@ -93,7 +93,7 @@ exports.create = function (req, res, next) {
       !newMerchant.is_delivery ||
       !newMerchant.special_offer
       ){
-    return res.json(400, {success: false, msg: 'You must pass in mandatory fields !'});
+    return res.json(400, {success: false, msg: 'Please ensure to pass the required parameters to api!'});
   }
 
   // Must create user-account first
@@ -111,7 +111,8 @@ exports.create = function (req, res, next) {
       return res.json(400, result);
     }
 
-    newMerchant.user_id = result.user.id
+    newMerchant.user_id = result.user.id;
+    console.log(result.user.id);
 
     // create merchant with user info
     models.Merchants.create(newMerchant).then(function(merchant){
@@ -149,7 +150,7 @@ exports.create = function (req, res, next) {
  * @description
  *  There a two kind of information we need update,
  *    - first for user info: email, phoneno, password
-      - sencond
+      - second
  *  Staff information.
  */
 exports.update = function(req, res) {
