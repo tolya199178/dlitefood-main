@@ -60,7 +60,6 @@ exports.create = function (req, res, next) {
     /*
      check mandatory fields
      */
-    console.log(newCustomer);
     if(!newCustomer.name ||
       !newCustomer.screen_name ||
       !newCustomer.address ||
@@ -72,7 +71,7 @@ exports.create = function (req, res, next) {
       console.log(newCustomer);
       return res.json(400, {success: false, msg: 'Please pass in required fields to create a customer.'});
     }
-    console.log('here');
+    
     // Lets create a user-account first
     models.Users.createUser({
       email: newCustomer.email,
@@ -86,16 +85,16 @@ exports.create = function (req, res, next) {
       if(!result.success) {
         return res.json(400, result);
       }
-      console.log(result);
       newCustomer.user_id = result.user.id;
+
+      // create customer with user info
+      models.Customers.create(newCustomer)
+        .then( function (customer) {
+          if(!customer) res.json(400, { success: false, msg: 'Cant return customer after saving. Please review request.'})
+          res.json(200, { success: true, data: customer});
+        } )
     });
-    console.log('user id '+ newCustomer.user_id);
-    // create customer with user info
-    models.Customers.create(newCustomer )
-      .then( function (customer) {
-        if(!customer) res.json(400, { success: false, msg: 'Cant return customer after saving. Please review request.'})
-        res.json(200, { success: true, data: customer});
-      } )
+
   } catch(exception) {
     handleError(res, exception);
   }

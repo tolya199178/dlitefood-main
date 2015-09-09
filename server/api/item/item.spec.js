@@ -51,7 +51,7 @@ describe('/api/items', function() {
 
   it('should Create a item ', function(done) {
     var basicInfo = {
-      merchant_id: 4,
+      merchant_id: 58,
       category_id: 7,
       item_meal: 1,
       item_name: utils.generateName(100),
@@ -81,7 +81,6 @@ describe('/api/items', function() {
     (itemInfo.item_id > 0).should.equal(true);
 
     var basicInfo = {
-      merchant_id: 4,
       category_id: 7,
       item_meal: 10,
       item_name: utils.generateName(100),

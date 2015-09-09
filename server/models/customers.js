@@ -6,7 +6,8 @@ module.exports = function(sequelize, DataTypes) {
   var Customers = sequelize.define('Customers', {
     id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true
     },
     name: {
       type: DataTypes.STRING,
@@ -36,11 +37,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true,
     },
-    verified: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: '0'
-    },
     status: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -65,16 +61,6 @@ module.exports = function(sequelize, DataTypes) {
     co_pay_method: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    createdAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: 'CURRENT_TIMESTAMP'
-    },
-    updatedAt: {
-      type: DataTypes.DATE,
-      allowNull: false,
-      defaultValue: 'CURRENT_TIMESTAMP'
     },
     user_id: {
       type: DataTypes.INTEGER(11),
