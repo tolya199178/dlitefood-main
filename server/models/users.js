@@ -94,11 +94,7 @@ module.exports = function(sequelize, DataTypes) {
         */
         this.findAll({
           where: {
-            $or: [{
-              email: userInfo.email
-            },{
-              phoneno: userInfo.phoneno
-            }]
+            email: userInfo.email
           }
         }).then(function(result){
           // exist other account
