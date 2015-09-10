@@ -43,6 +43,10 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
           span.nav-label {{ 'Merchants' }}
           span.fa.arrow
         ul.nav.nav-second-level.collapse(ng-class="{in: $state.includes('merchants')}")
+          li(ng-class="{active: $state.includes('merchants-list')}")
+            a(ui-sref="merchants-list")
+              i.fa.fa-user
+              span.nav-label {{ 'List' }}
           li(ng-class="{active: $state.includes('merchants-items')}")
             a(ui-sref="merchants-items")
               i.fa.fa-briefcase
