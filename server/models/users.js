@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 
 module.exports = function(sequelize, DataTypes) {
-  var Users =  sequelize.define('Users', { 
+  var Users =  sequelize.define('Users', {
     id: {
       type: DataTypes.INTEGER(11),
       autoIncrement: true,
@@ -41,8 +41,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     phoneno: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.STRING
     },
     status: {
       type: DataTypes.INTEGER(1),
@@ -71,6 +70,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       defaultValue: 'staff'
     }
+   // token: { TODO: We havent added this into DB yet
+   //   type: DataTypes.STRING
+   // },
+   // token_expired: {
+   //   type: DataTypes.DATE
+   // }
   }, {
     classMethods: {
       associate: function(models) {
@@ -156,6 +161,6 @@ module.exports = function(sequelize, DataTypes) {
       }
     }
   });
-  
+
   return Users;
 };

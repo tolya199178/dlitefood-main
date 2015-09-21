@@ -7,7 +7,7 @@ angular.module('dLiteMeAdmin', [
     'btford.socket-io',
     'ui.router',
     'ui.bootstrap',
-    'oc.lazyLoad', // ocLazyLoad
+    // 'oc.lazyLoad', // ocLazyLoad
     'ngIdle', // Idle timer
     'NgSwitchery',
     'ui.footable',
