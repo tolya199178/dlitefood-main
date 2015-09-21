@@ -4,7 +4,7 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
     ul#side-menu.nav.metismenu(side-navigation='')
       li.nav-header
         span
-          img.img-circle(style="width: 48px; height: 48px;",alt='image', src='http://res.cloudinary.com/dy4lucetl/image/upload/v1441204721/dliteme_v6fsui.jpg')
+          img.img-circle(style="width: 48px; height: 48px;",alt='image', src='http://res.cloudinary.com/dy4lucetl/image/upload/v1442232273/dliteme-circle-logo01_izximi.png')
         .dropdown.profile-element(dropdown='')
           a.dropdown-toggle(dropdown-toggle='', href='')
             span.clear
@@ -19,10 +19,12 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
           i.fa.fa-th-large
           span.nav-label {{ 'Dashboard'}}
 
+
       li(ng-class="{active: $state.includes('tracker')}")
         a(ui-sref='tracker.map')
           i.fa.fa-motorcycle
           span.nav-label {{ 'Tracker' }}
+            span.label.label-warning.pull-right 3
 
       li(ng-class="{active: $state.includes('manage-staff')}")
         a(ui-sref='manage-staff')
@@ -33,10 +35,12 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
         a(ui-sref='users')
           i.fa.fa-group
           span.nav-label {{ 'Users'}}
+          span.label.label-primary.pull-right 4000
       li(ng-class="{active: $state.includes('orders')}")
         a(ui-sref="orders")
           i.fa.fa-cubes
           span.nav-label {{ 'Orders' }}
+          span.label.label-info.pull-right 500
       li(ng-class="{active: $state.includes('merchants')}")
         a(ui-sref='merchants')
           i.fa.fa-th-large
@@ -44,9 +48,14 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
           span.fa.arrow
         ul.nav.nav-second-level.collapse(ng-class="{in: $state.includes('merchants')}")
           li(ng-class="{active: $state.includes('merchants-list')}")
-            a(ui-sref="merchants-list")
+            a(ui-sref="merchants")
               i.fa.fa-user
               span.nav-label {{ 'List' }}
+              span.label.labe-info.pull-right 55
+          li(ng-class="{active: $state.includes('merchants-location')}")
+            a(ui-sref="merchants-location")
+              i.fa.fa-home
+              span.nav-Label {{'Location'}}
           li(ng-class="{active: $state.includes('merchants-items')}")
             a(ui-sref="merchants-items")
               i.fa.fa-briefcase
@@ -64,3 +73,5 @@ nav.navbar-default.navbar-static-side(role='navigation', ng-controller="NavbarCt
         a(ui-sref="settings")
           i.fa.fa-cogs
           span.nav-label {{ 'Settings' }}
+
+            span.label.label-success.pull-right SPECIAL

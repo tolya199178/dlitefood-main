@@ -1,0 +1,20 @@
+#wrapper(data-ng-controller="MerchantsCtrl")
+  div(ng-include="'components/navbar/navbar.html'")
+
+  #page-wrapper.gray-bg(class='~$state.current.name~')
+    div(ng-include="'components/topbar/topbar.html'")
+
+
+    .wrapper.wrapper-content.animated.fadeIn
+
+      .tabs-container
+        tabset
+          tab(heading="Add New Merchants")
+            .panel-body
+              div(data-ng-include="'app/merchants/subviews/list/add_merchant.html'")
+
+          tab(heading="Browse All Merchants")
+            .panel-body
+              div(data-ng-include="'app/merchants/subviews/list/merchants-list.html'")
+
+    div(data-ng-include="'components/footer/footer.html'")

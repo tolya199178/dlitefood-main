@@ -15,6 +15,7 @@ angular.module('dLiteMeAdmin', [
     'chart.js',
     // 'uiGmapgoogle-maps'
     'ngMap'
+
   ])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider

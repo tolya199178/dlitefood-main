@@ -1,0 +1,34 @@
+.wrapper.wrapper-content.animated.fadeIn
+  .row
+    .col-lg-12
+      .ibox
+          h4 Review all merchants
+        .ibox-content
+          table.footable.table.toggle-arrow-tiny(data-page-size="15")
+            thead
+              tr
+                th ID
+                th Name
+                th Status
+                th Est. Del. Time
+                th Preview
+                th Categories
+                th Type
+                th.text-right Action
+            tbody
+              tr
+                td 12
+                td KFC
+                td
+                  span.label.label-success Active
+                td
+                  i.fa.fa-clock-o
+                  |   45
+                td img.png
+                td FastFood
+                td American
+                td.text-right
+                  .btn-group
+                    button.btn-warning.btn.btn-xs(data-ng-click="editMerchant()") Edit
+                    button.btn-danger.btn.btn-xs(data-ng-click="deleteMerchant()") Delete
+

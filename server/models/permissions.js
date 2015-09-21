@@ -1,9 +1,9 @@
 
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('Permissions', { 
+  return sequelize.define('Permissions', {
     id: {
       type: DataTypes.INTEGER(11),
-      allowNull: false,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,

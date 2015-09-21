@@ -1,5 +1,42 @@
-#wrapper(data-ng-controller="OrdersCtrl")
+#wrapper(data-ng-controller="ManageStaffCtrl")
   div(ng-include="'components/navbar/navbar.html'")
 
   #page-wrapper.gray-bg(class='~$state.current.name~')
     div(ng-include="'components/topbar/topbar.html'")
+
+
+    .wrapper.wrapper-content.animated.fadeIn
+      .row
+        .col-lg-12
+          .ibox
+            .ibox-title
+              h4 Review all orders
+            .ibox-content
+              table.footable.table.toggle-arrow-tiny(data-page-size="15")
+                thead
+                  tr
+                    th Order ID
+                    th User ID
+                    th Name
+                    th Amount
+                    th Status
+                    th Date Added
+                    th.text-right Action
+                tbody
+                  tr
+                    td 12
+                    td 16
+                    td Ade Tayo
+                    td
+                    td
+                      span.label.label-primary Active
+                    td
+                      i.fa.fa-o-clock
+                      | 45 mins
+                    td American
+                    td.text-right
+                      .btn-group
+                        button.btn-warning.btn.btn-xs(data-ng-click="editMerchant()") Edit
+                        button.btn-danger.btn.btn-xs(data-ng-click="deleteMerchant()") Delete
+
+    div(ng-include="'components/footer/footer.html'")
