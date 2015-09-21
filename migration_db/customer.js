@@ -26,7 +26,7 @@ var oldDB = new Sequelize(
     logging: false
   });
 
-var query = "select * from account limit 20";
+var query = "select * from account";
 
 oldDB
   .query(query, {

@@ -112,8 +112,7 @@ exports.create = function (req, res, next) {
     }
 
     newMerchant.user_id = result.user.id;
-    console.log(result.user.id);
-
+    
     // create merchant with user info
     models.Merchants.create(newMerchant).then(function(merchant){
       if (!merchant) res.json(400, {success: false, msg: 'Unknow issue !!'});

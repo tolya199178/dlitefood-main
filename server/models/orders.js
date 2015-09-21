@@ -12,11 +12,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER(24),
       allowNull: false,
     },
-    rest_id: {
+    merchant_id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
     },
-    rest_type: {
+    merchant_type: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -44,20 +44,8 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    postcode: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    address: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     note: {
       type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    phoneno: {
-      type: DataTypes.STRING,
       allowNull: false,
     },
     status: {
@@ -65,7 +53,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: '3'
     },
-    acceptence_time: {
+    acceptance_time: {
       type: DataTypes.DATE,
       allowNull: false,
     }

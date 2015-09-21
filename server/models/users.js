@@ -99,7 +99,7 @@ module.exports = function(sequelize, DataTypes) {
         }).then(function(result){
           // exist other account
           if (result.length){
-            return callback({success: false, msg: 'Duplicated user with email or phoneno !!'})
+            return callback({success: false, msg: 'Duplicated user with email !!'})
           }
 
           // no exist - can create user info
