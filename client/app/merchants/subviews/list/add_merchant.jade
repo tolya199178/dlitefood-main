@@ -1,120 +1,76 @@
 .ecommerce.animated.fadeInRight
-  .ibox
-      h4 Add New Merchant
-      .ibox-tools
-    .ibox-content
-      form.form-horizontal(
-      novalidate,
-      name='add_merchant',
-      role='form'
-      )
-        .form-group
-          .col-lg-2
-            label.control-label Name
-            span.required *
-          .col-lg-6
-            input.form-control(
-              type="text",
-              data-ng-model="merchant_name",
-              placeholder="KFC"
-              required
-            )
-            span.help-block.text-navy
-        .form-group
-          .col-lg-2
-            label.control-label Type
-            span.required *
-            span.help-block.small.text-navy e.g American, Chinese e.t.c
-          .col-lg-6
-            input.form-control(
-              type="text",
-              data-ng-model="merchant_type",
-              placeholder="",
-              required
-            )
-        .form-group
-          .col-lg-2
-            label.control-label Email
-            span.required *
-            span.help-block.small.text-navy Merchant email for correspondence
-          .col-lg-6
-            input.form-control(
-              type="text",
-              data-ng-model="merchant_email",
-              required
-            )
-        .form-group
-          .col-lg-2
-            label.control-label Password
-            span.required *
-            span.help-block.small.text-navy Generate merchant password
-          .col-lg-6
-            .input-group
-              input.form-control(
-                type="text",
-                name="merchant_password",
-                data-ng-model="merchant_password"
-              )
-              .input-group-btn
-                button.btn.btn-primary.btn-lg(
-                  data-ng-model="generate_merchant_password",
-                  data-ng-click="generatePassword()",
-                ) Generate Password
-        .form-group
-          .col-lg-2
-            label.control-label Phone No.
-            span.required *
-            span.help-block.small.text-navy To reach out to merchant
-          .col-lg-6
-            input.form-control(
-              type="text",
-              name="merchant_phoneno",
-              data-ng-model="merchant_phoneno"
-            )
-        .form-group
-          .col-lg-2
-            label.control-label Delivery Time
-            span.required *
-            span.help-block.small.text-navy Approx. Delivery Time e.g 45
-          .col-lg-6
-            input.form-control(
-              type="text",
-              name="merchant_delivery_time",
-              data-ng-model="merchant_delivery_time"
-            )
-        .form-group
-          .col-lg-2
-            label.control-label Special Note
-            span.required *
-            span.help-block.small.text-navy e.g discounts
-          .col-lg-6
-            input.form-control(
-              type="text",
-              name="merchant_special_note",
-              data-ng-model="merchant_special_note"
-            )
-        .form-group
-          .col-lg-2
-            label.control-label Merchant Image
-            span.required *
-            span.help-block.small.text-navy Merchant image is required.
-          .col-lg-6
-            .input-group
-              input(
-                type="file",
-                placeholder="Merchant Image",
-                name="merchant_image"
-                data-ng-model="merchant_image"
-              )
-              .input-group-btn.pull-right
+	.ibox
+			h4 Add New Merchant
+			.ibox-tools
+		.ibox-content
+			form.form-horizontal(novalidate, name='add_merchant', role='form')
+				.form-group
+					.col-lg-2
+						label.control-label Name
+						span.required *
+					.col-lg-6
+						input.form-control(type="text", data-ng-model="merchant_name", placeholder="KFC" required)
+						span.help-block.text-navy
+				.form-group
+					.col-lg-2
+						label.control-label Type
+						span.required *
+						span.help-block.small.text-navy e.g American, Chinese e.t.c
+					.col-lg-6
+						input.form-control(type="text", data-ng-model="merchant_type", placeholder="", required)
+				.form-group
+					.col-lg-2
+						label.control-label Email
+						span.required *
+						span.help-block.small.text-navy Merchant email for correspondence
+					.col-lg-6
+						input.form-control(type="text", data-ng-model="merchant_email", required)
+				.form-group
+					.col-lg-2
+						label.control-label Password
+						span.required *
+						span.help-block.small.text-navy Generate merchant password
+					.col-lg-6
+						.input-group
+							input.form-control(type="text", name="merchant_password", data-ng-model="merchant_password")
+							.input-group-btn
+								button.btn.btn-primary.btn-lg(data-ng-model="generate_merchant_password", data-ng-click="generatePassword()") Generate Password
+				.form-group
+					.col-lg-2
+						label.control-label Phone No.
+						span.required *
+						span.help-block.small.text-navy To reach out to merchant
+					.col-lg-6
+						input.form-control(type="text", name="merchant_phoneno", data-ng-model="merchant_phoneno")
+				.form-group
+					.col-lg-2
+						label.control-label Delivery Time
+						span.required *
+						span.help-block.small.text-navy Approx. Delivery Time e.g 45
+					.col-lg-6
+						input.form-control(type="text", name="merchant_delivery_time", data-ng-model="merchant_delivery_time")
+				.form-group
+					.col-lg-2
+						label.control-label Special Note
+						span.required *
+						span.help-block.small.text-navy e.g discounts
+					.col-lg-6
+						input.form-control(type="text", name="merchant_special_note", data-ng-model="merchant_special_note")
+				.form-group
+					.col-lg-2
+						label.control-label Merchant Image
+						span.required *
+						span.help-block.small.text-navy Merchant image is required.
+					.col-lg-6
+						.input-group.pull-left
+							input(type='file', nv-file-select='', uploader='uploader')
+						.input-group.pull-right
+							button.btn.btn-primary.btn-lg(type='button', ng-click='uploader.uploadAll()', ng-disabled='!uploader.getNotUploadedItems().length') Upload
+							//- input(type="file", placeholder="Merchant Image", name="merchant_image", data-ng-model="merchant_image")
+							//- .input-group-btn.pull-right
+							//- 	button.btn.btn-primary.btn-lg(data-ng-click="uploadImage()", data-ng-model="uploadMerchantImage") Upload
 
-                button.btn.btn-primary.btn-lg(
-                  data-ng-click="uploadImage()",
-                  data-ng-model="uploadMerchantImage"
-                ) Upload
-
-
-
-
-
-
+					.clearfix
+					.col-lg-12
+						.progress(ng-if="uploader.progress")
+							.progress-bar(role='progressbar', ng-style="{ 'width': uploader.progress + '%' }")
