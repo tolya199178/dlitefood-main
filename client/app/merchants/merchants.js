@@ -6,7 +6,7 @@ angular.module('dLiteMeAdmin')
       .state('merchants', {
         url: '/merchants/list',
         templateUrl: 'app/merchants/subviews/merchants.html',
-        controller: 'MerchantsCtrl'
+        controller: ''
       })
 
   });

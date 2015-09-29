@@ -1,56 +1,59 @@
 'use strict';
 
 angular.module('dLiteMeAdmin')
-	.controller('MerchantsCtrl', function($scope, FileUploader) {
-		var uploader = $scope.uploader = new FileUploader({
-			url: 'http://localhost/freelance/fv0029-kunle/dlite-main/upload.php'
-		});
+	.controller('MerchantsCtrl', ['$scope', '$timeout', 'Upload', function($scope, $timeout, Upload) {
+      var d = new Date();
 
-		// FILTERS
+      $scope.files = {};
+      $scope.title = 'Image('+d.getTime() + '-' + d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds() +')';
 
-		uploader.filters.push({
-			name: 'imageFilter',
-			fn: function(item /*{File|FileLikeObject}*/ , options) {
-				var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
-				return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
-			}
-		});
+      $scope.uploadFiles = function (file) {
+        $scope.fileToLoad = file;
+        console.log(file);
+        if(!$scope.fileToLoad) return;
+          if(file && !file.$error) {
+            console.log('here', file.name);
+            file.upload = Upload.upload({
+              url: 'http://api.cloudinary.com/v1_1/' + cloudinary_config.cloudName + "/upload",
+              method: 'POST',
+              fields: {
+                upload_preset : cloudinary_config.upload_presets,
+                tags: 'merchantAlbum',
+                context: 'photo='+$scope.title
+              },
+              data: {file: file}
 
-		// CALLBACKS
+            });
 
-		uploader.onWhenAddingFileFailed = function(item /*{File|FileLikeObject}*/ , filter, options) {
-			console.info('onWhenAddingFileFailed', item, filter, options);
-		};
-		uploader.onAfterAddingFile = function(fileItem) {
-			console.info('onAfterAddingFile', fileItem);
-		};
-		uploader.onAfterAddingAll = function(addedFileItems) {
-			console.info('onAfterAddingAll', addedFileItems);
-		};
-		uploader.onBeforeUploadItem = function(item) {
-			console.info('onBeforeUploadItem', item);
-		};
-		uploader.onProgressItem = function(fileItem, progress) {
-			console.info('onProgressItem', fileItem, progress);
-		};
-		uploader.onProgressAll = function(progress) {
-			console.info('onProgressAll', progress);
-		};
-		uploader.onSuccessItem = function(fileItem, response, status, headers) {
-			console.info('onSuccessItem', fileItem, response, status, headers);
-		};
-		uploader.onErrorItem = function(fileItem, response, status, headers) {
-			console.info('onErrorItem', fileItem, response, status, headers);
-		};
-		uploader.onCancelItem = function(fileItem, response, status, headers) {
-			console.info('onCancelItem', fileItem, response, status, headers);
-		};
-		uploader.onCompleteItem = function(fileItem, response, status, headers) {
-			console.info('onCompleteItem', fileItem, response, status, headers);
-		};
-		uploader.onCompleteAll = function() {
-			console.info('onCompleteAll');
-		};
+            file.upload.then( function (response) {
+              console.log('uploading...');
+              $timeout( function () {
+                console.log(response);
+                file.result = response.data;
+              }, function (response) {
+                if(response.status > 0) {
+                  $scope.errorMsg = response.status + ':' + response.data;
+                }
+              })
+            })
+          file.upload.progress( function (e) {
+              file.progress = Math.round(( e.loaded * 100.0 ) / e.total);
+              file.status = 'Uploading...'+ file.progress + '%';
+            } ).success( function (data, status, headers, config) {
+              $rootScope.merchantImage = $rootScope.merchantImage || [];
+              data.context = {
+                custom: {
+                  merchantImage: $scope.title
+                }
+              };
+              file.result = data;
+              $rootScope.merchantImage.push(data);
+            } ).error( function (data, status, headers, config) {
+              file.result = data;
 
-		console.info('uploader', uploader);
-	});
+            })
+          } else {
+            console.log('error occurred');
+          }
+      }
+	}]);

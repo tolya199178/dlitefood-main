@@ -15,7 +15,7 @@ app.factory('TrackerServices', function ($http, $q, BASE_API_LINK) {
         }).error(function(data, status, headers, config){
           defer.resolve(data);
         });
-        
+
         return defer.promise;
       }
     };

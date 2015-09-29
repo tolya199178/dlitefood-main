@@ -15,7 +15,8 @@ angular.module('dLiteMeAdmin', [
 		'chart.js',
 		// 'uiGmapgoogle-maps'
 		'ngMap',
-		'angularFileUpload'
+    'cloudinary',
+    'ngFileUpload'
 
 	])
 	.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {

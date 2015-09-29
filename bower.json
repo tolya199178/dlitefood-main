@@ -6,6 +6,7 @@
     "angular-bootstrap": "~0.11.0",
     "angular-chart.js": "~0.8.1",
     "angular-charts": "~0.2.7",
+    "angular-cloudinary": "~1.1.0",
     "angular-cookies": ">=1.2.*",
     "angular-file-upload": "~2.1.4",
     "angular-footable": "~1.0.3",
@@ -30,7 +31,8 @@
     "ng-file-upload": "~7.2.2",
     "ng-switchery": "~1.0.0-alpha7",
     "ngmap": "~1.13.4",
-    "ui-select": "angular-ui-select#~0.12.1"
+    "ui-select": "angular-ui-select#~0.12.1",
+    "ng-file-upload-shim": "~8.0.1"
   },
   "devDependencies": {
     "angular-file-upload": "~2.1.4",
@@ -40,6 +42,7 @@
   "resolutions": {
     "switchery": "~0.8.1",
     "angular": "1.4.1",
-    "lodash": ">=3.8.0"
+    "lodash": ">=3.8.0",
+    "ng-file-upload": "~7.2.2"
   }
 }

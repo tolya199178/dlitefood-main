@@ -279,6 +279,144 @@ exports.destroy = function(req, res) {
 
 };
 
+/**
+ Update staff location
+ @param {Integer} staff id
+ @param {Float} Latitude
+ @param {Float} Longtitude
+ */
+exports.updateLocation = function(req, res) {
+  if (!req.body.lat || !req.body.lon) {
+    return res.json(400, {
+      success: false,
+      msg: 'Please pass in right data'
+    });
+  };
+
+  try {
+    models.Staffs
+      .findOne({
+        where: {
+          staff_id: req.staff.staff_id
+        }
+      })
+      .then(function(staff) {
+        if (!staff) {
+          return res.json(404, {
+            success: false,
+            msg: 'Can\'t find the staff '
+          });
+        }
+
+        models.Staffs.update({
+          staff_location: JSON.stringify({
+            lat: req.body.lat,
+            lon: req.body.lon
+          }),
+        }, {
+          where: {
+            staff_id: req.staff.staff_id
+          }
+        }).then(function(result) {
+          if (result[0] == 1){
+            userSocket.broadcastData('staff:location_change', {
+              id: req.staff.staff_id,
+              lat: req.body.lat,
+              lon: req.body.lon
+            });
+            return res.json(200, {
+              sucess: true
+            });
+          }
+          else
+            return res.json(422, {
+              success: false,
+              msg: 'Please double check the input lat lon. '
+            });
+        });
+
+      });
+  } catch (exception) {
+    return res.json(500, {
+      success: false,
+      data: exception
+    });
+  }
+
+};
+
+
+/*
+ Update staff location
+ @param {Integer} staff id
+ @param {Interge} Status
+ */
+var STAFF_STATUS = {
+  ACTIVE: 1,
+  DELIVERING: 2,
+  INACTIVE: 3
+};
+
+/**
+ * Update staff location
+ * @param req
+ * @param res
+ * @returns {*}
+ */
+exports.changeStatus = function(req, res) {
+
+  if (!req.body.status) {
+    return res.json(400, {
+      success: false,
+      msg: 'Please pass in right data'
+    });
+  };
+
+  try {
+    models.Staffs
+      .findOne({
+        where: {
+          staff_id: req.staff.staff_id
+        }
+      })
+      .then(function(staff) {
+        if (!staff) {
+          return res.json(404, {
+            success: false,
+            msg: 'Can\'t find the staff '
+          });
+        }
+
+        models.Staffs.update({
+          staff_status: req.body.status.toString(),
+        }, {
+          where: {
+            staff_id: req.staff.staff_id
+          }
+        }).then(function(result) {
+          if (result[0] == 1){
+            staff.staff_status = req.body.status;
+            userSocket.broadcastData('staff:status_change', staff);
+            return res.json(200, {
+              sucess: true
+            });
+          }
+          else
+            return res.json(422, {
+              success: false,
+              msg: 'Please double check the input lat lon. '
+            });
+        });
+
+      });
+  } catch (exception) {
+    return res.json(500, {
+      success: false,
+      data: exception
+    });
+  }
+
+};
 
 function handlerException (res, ex){
   res.json(500, {success: false, data: ex.toString(), msg: 'Exception thrown !!!'});
