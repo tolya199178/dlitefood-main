@@ -3,7 +3,7 @@
   #page-wrapper.gray-bg(class='~$state.current.name~')
     div(data-ng-include="'components/topbar/topbar.html'")
 
-    .wrapper.wrapper-content.animated.fadeInRight
+    .wrapper.wrapper-content.animated.fadeInRight.tracker-page
       .tabs-container
         tabset
           tab(heading="Staff Map", ui-sref="tracker.map", active="active.map", ui-sref-active="active")
@@ -12,5 +12,18 @@
           tab(heading="Street View", ui-sref="tracker.street", active="active.street", ui-sref-active="active")
             .panel-body
               div(ui-view="tracker_street")
+
+      .tabs-container.mt-20
+        tabset
+          tab(heading="Nearby")
+            .panel-body
+              div(ng-include="'app/tracker/tasks.html'")
+          tab(heading="Completed")
+            .panel-body
+              div(ng-include="'app/tracker/tasks.html'")
+          tab(heading="Assigned by Me")
+            .panel-body
+              div(ng-include="'app/tracker/tasks.html'")
+
     div(data-ng-include="'components/footer/footer.html'")
 

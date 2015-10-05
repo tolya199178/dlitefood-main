@@ -6,6 +6,7 @@ angular.module('dLiteMeAdmin')
       map: $state.includes('tracker.map'),
       street: $state.includes('tracker.street')
     }
+    $scope.task = 'nearby';
   })
 
   .controller('TrackerMapCtrl', function ($scope, TrackerServices, Utils, socket) {
