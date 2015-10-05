@@ -21,10 +21,10 @@ var LIST_STAFF_ATTRIBUTE = [
   ];
 
 var LIST_MERCHANT_ATTRIBUTE = [
-    'name', 
+    'name',
     'picture',
     'time',
-    'notes', 
+    'notes',
     'charges',
     'steps',
     'min_order',
@@ -114,7 +114,7 @@ exports.changePassword = function(req, res, next) {
   catch (exception){
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
   }
-  
+
 };
 
 
@@ -185,6 +185,8 @@ exports.me = function(req, res, next) {
   catch (exception){
     res.json(500, {success: false, data: exception, msg: 'Exception thrown !!!'});
   }
-  
+
 };
+
+
 

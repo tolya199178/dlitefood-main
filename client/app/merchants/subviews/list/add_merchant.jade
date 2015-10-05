@@ -63,13 +63,14 @@
 						span.help-block.small.text-navy Merchant image is required.
 					.col-lg-6
 						.input-group.pull-left
-							input(type='file', nv-file-select='', uploader='uploader')
+							input(type='file', ngf-select='uploadFiles($file)' data-ng-model="merchantImg")
+							img.thumb(ng-show="add_merchant.file.$valid" ngf-thumbnail="!merchantImg.$error && merchantImg")
 						.input-group.pull-right
-							button.btn.btn-primary.btn-lg(type='button', ng-click='uploader.uploadAll()', ng-disabled='!uploader.getNotUploadedItems().length') Upload
-							//- input(type="file", placeholder="Merchant Image", name="merchant_image", data-ng-model="merchant_image")
-							//- .input-group-btn.pull-right
-							//- 	button.btn.btn-primary.btn-lg(data-ng-click="uploadImage()", data-ng-model="uploadMerchantImage") Upload
+								button.btn-group.btn-primary.btn-lg(data-ng-click="uploadFiles($file)") Upload
 
+					.col-lg-6
+						span.success(ng-show="merchantImg.result") Upload Successful
+						span.error(ng-show="errorMsg") {{errorMsg}}
 					.clearfix
 					.col-lg-12
 						.progress(ng-if="uploader.progress")

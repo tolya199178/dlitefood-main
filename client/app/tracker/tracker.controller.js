@@ -55,12 +55,12 @@ angular.module('dLiteMeAdmin')
     function updateDriverPostion(location){
       $scope.bounds = new google.maps.LatLngBounds ();
       var driver = _.find($scope.drivers, function(driver){
-        return driver.staff_id == location.id;
+        return driver.id == location.id;
       });
       if (driver){
         if (driver.marker)
           driver.marker.setMap(null);
-        driver.marker = initMarker(location.lat, location.lon, driver.staff_name);
+        driver.marker = initMarker(location.lat, location.lon, driver.name);
 
         _.each($scope.drivers, function(driver){
           if (driver.marker){
@@ -92,18 +92,18 @@ angular.module('dLiteMeAdmin')
     */
     function extractLocationData(driversInfo){
       _.each(driversInfo, function(driver){
-        if (driver.staff_location){
-          var pos = JSON.parse(driver.staff_location);
+        if (driver.location){
+          var pos = JSON.parse(driver.location);
           pos.lat = parseFloat(pos.lat);
           pos.lon = parseFloat(pos.lon);
 
           var latLng = new google.maps.LatLng (pos.lat, pos.lon);
-          latLng.staff_id = driver.staff_id; // to keep track which driver that bounce belong to
+          latLng.id = driver.id; // to keep track which driver that bounce belong to
           $scope.bounds.extend(latLng);
 
-          driver.marker = initMarker(pos.lat, pos.lon, driver.staff_name);
+          driver.marker = initMarker(pos.lat, pos.lon, driver.name);
         }
-        else if (driver.staff_postcode){
+        else if (driver.postcode){
 
         }
       });
@@ -147,12 +147,13 @@ angular.module('dLiteMeAdmin')
     }
 
     $scope.selectDriver = function(){
+      console.log($scope.drivers);
       var driver = _.find($scope.drivers, function(driver){
-        return driver.staff_id == parseInt($scope.selectedDriver);
+        return driver.id == parseInt($scope.selectedDriver);
       });
 
-      if (driver.staff_location){
-        $scope.streetPos = JSON.parse(driver.staff_location);
+      if (driver.location){
+        $scope.streetPos = JSON.parse(driver.location);
         changeStreetMapPos($scope.streetPos.lat, $scope.streetPos.lon);
       }else{
         alert("This staff doesn't have location information !! ")
